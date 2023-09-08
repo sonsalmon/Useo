@@ -1,8 +1,8 @@
-import '/components/sort_sheet_widget.dart';
+import 'package:my_useo/components/sort_sheet_widget.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'library_screen_model.dart';
 export 'library_screen_model.dart';
@@ -155,78 +155,70 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                 ),
               ),
             ),
-            Container(
-              width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-              ),
-              child: Column(
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+              child: Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Icon(
-                          Icons.sort_outlined,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 24.0,
-                        ),
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            await showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              enableDrag: false,
-                              context: context,
-                              builder: (context) {
-                                return Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: SortSheetWidget(),
-                                );
-                              },
-                            ).then((value) =>
-                                setState(() => _model.sortOption = value));
+                  Icon(
+                    Icons.sort_outlined,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 24.0,
+                  ),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: MediaQuery.viewInsetsOf(context),
+                            child: Wrap(children: [SortSheetWidget()]),
+                          );
+                        },
+                      ).then(
+                          (value) => setState(() => _model.sortOption = value));
 
-                            setState(() {});
-                          },
-                          child: Text(
-                            _model.sortOption!,
-                            style: FlutterFlowTheme.of(context).bodyMedium,
-                          ),
-                        ),
-                      ],
+                      setState(() {});
+                    },
+                    child: Text(
+                      _model.sortOption,
+                      style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 640.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                height: 640.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                  child: GridView(
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 0.68,
                     ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          16.0, 16.0, 16.0, 16.0),
-                      child: GridView(
-                        padding: EdgeInsets.zero,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                          childAspectRatio: 0.68,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          ClipRRect(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      for (int i = 0; i < 15; i++)
+                        InkWell(
+                          onTap: () => context.pushNamed('bookDetailScreen'),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
                               'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788954699075.jpg',
@@ -235,110 +227,10 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/101/600',
-                              width: 300.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

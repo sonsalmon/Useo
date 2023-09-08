@@ -1,9 +1,6 @@
-import '/components/sort_sheet_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:my_useo/constants.dart' as Constants;
 
 class LibraryScreenModel extends FlutterFlowModel {
   ///  Local state fields for this page.
@@ -24,7 +21,8 @@ class LibraryScreenModel extends FlutterFlowModel {
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Bottom Sheet - sortSheet] action in Text widget.
-  String? sortOption;
+  // String? sortOption = '최근 추가순'; //defalt값을 어떻게?
+  String sortOption = Constants.sortOptions['recent_add']!;
 
   /// Initialization and disposal methods.
 

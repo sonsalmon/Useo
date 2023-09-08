@@ -3,7 +3,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'login_screen_model.dart';
 export 'login_screen_model.dart';
@@ -272,7 +271,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                   return;
                                 }
 
-                                context.pushNamed('HomeScreen');
+                                context.pushReplacementNamed('HomeScreen');
                               },
                               text: '로그인',
                               options: FFButtonOptions(

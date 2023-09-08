@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_username_screen_model.dart';
 export 'sign_up_username_screen_model.dart';
@@ -204,9 +203,9 @@ class _SignUpUsernameScreenWidgetState
                                 40.0, 12.0, 40.0, 16.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                context.pushNamed('HomeScreen');
+                                context.pushReplacementNamed('HomeScreen');
                               },
-                              text: '다음 단계',
+                              text: '회원 가입',
                               options: FFButtonOptions(
                                 width: double.infinity,
                                 height: 60.0,

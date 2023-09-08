@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'book_detail_screen_model.dart';
 export 'book_detail_screen_model.dart';
@@ -152,7 +151,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                         setState(() {});
                       },
                       child: Text(
-                        _model.readingState!,
+                        _model.readingState ?? '독서 상태',
                         style: FlutterFlowTheme.of(context).labelMedium,
                       ),
                     ),
