@@ -113,8 +113,7 @@ class _SelectReadingStateWidgetState extends State<SelectReadingStateWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              Navigator.pop(
-                                  context, state);
+                              Navigator.pop(context, state);
                             },
                             child: Container(
                               width: double.infinity,

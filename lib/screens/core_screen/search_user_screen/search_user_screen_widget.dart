@@ -281,6 +281,10 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                   ),
                                   FFButtonWidget(
                                     onPressed: () {
+                                      context.pushNamed('LibraryOtherScreen',
+                                          queryParameters: {
+                                            'username': user.userName,
+                                          });
                                       print('Button pressed ...');
                                     },
                                     text: 'View',

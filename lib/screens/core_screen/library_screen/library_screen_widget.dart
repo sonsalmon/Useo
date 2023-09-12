@@ -89,7 +89,7 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                                 textInputAction: TextInputAction.search,
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                  labelText: 'Label here...',
+                                  labelText: '책 검색',
                                   labelStyle:
                                       FlutterFlowTheme.of(context).labelMedium,
                                   hintStyle:
@@ -171,21 +171,28 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      await showModalBottomSheet(
+                      final value = await showModalBottomSheet(
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
                         enableDrag: false,
                         context: context,
                         builder: (context) {
-                          return Padding(
-                            padding: MediaQuery.viewInsetsOf(context),
-                            child: Wrap(children: [SortSheetWidget()]),
+                          return Dismissible(
+                            key: UniqueKey(),
+                            onDismissed: (direction) {},
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: Wrap(children: [SortSheetWidget()]),
+                            ),
                           );
                         },
-                      ).then(
-                          (value) => setState(() => _model.sortOption = value));
-
-                      setState(() {});
+                      );
+                      print(value.runtimeType);
+                      print(value);
+                      // ).then(
+                      // (value) => setState(() => _model.sortOption = value));
+                      setState(() => _model.sortOption =
+                          value != null ? value : _model.sortOption);
                     },
                     child: Text(
                       _model.sortOption,

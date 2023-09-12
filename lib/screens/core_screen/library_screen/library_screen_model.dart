@@ -17,7 +17,8 @@ class LibraryScreenModel extends FlutterFlowModel {
 
   String? searchKeyword = '';
 
-  List<BookStruct> myLibrary = [];
+  List<BookStruct> myLibrary = []; //api call 불러와야 함.
+  
 
   ///  State fields for stateful widgets in this page.
 
