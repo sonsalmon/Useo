@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_screen_model.dart';
 export 'sign_up_screen_model.dart';
@@ -357,6 +356,7 @@ class _SignUpScreenWidgetState extends State<SignUpScreenWidget> {
                                     FFAppState().signupPassword =
                                         _model.passwordController1.text;
                                   });
+
 
                                   context.pushNamed('SignUpUsernameScreen');
                                 } else {

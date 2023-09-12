@@ -270,8 +270,12 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                     !_model.formKey.currentState!.validate()) {
                                   return;
                                 }
-
-                                context.pushReplacementNamed('HomeScreen');
+                                // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
+                                // api call
+                                setState(() {
+                                  FFAppState().isSignedIn = true;
+                                });
+                                context.goNamed('HomeScreen');
                               },
                               text: '로그인',
                               options: FFButtonOptions(

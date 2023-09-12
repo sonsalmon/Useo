@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'select_reading_progress_model.dart';
 export 'select_reading_progress_model.dart';
@@ -104,7 +103,7 @@ class _SelectReadingProgressWidgetState
                   children: [
                     Text(
                       valueOrDefault<String>(
-                        _model.sliderValue?.toString(),
+                        _model.sliderValue?.toInt().toString(),
                         '0',
                       ),
                       style: FlutterFlowTheme.of(context).bodyLarge,

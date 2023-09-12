@@ -69,7 +69,7 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                           EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
                       child: Text(
                         '나의 서재',
-                        style: FlutterFlowTheme.of(context).headlineSmall,
+                        style: FlutterFlowTheme.of(context).headlineLarge,
                       ),
                     ),
                     Padding(
@@ -215,13 +215,23 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                     ),
                     scrollDirection: Axis.vertical,
                     children: [
-                      for (int i = 0; i < 15; i++)
+                      for (var libraryBook in _model.myLibrary)
                         InkWell(
-                          onTap: () => context.pushNamed('bookDetailScreen'),
+                          onTap: () => context
+                              .pushNamed('bookDetailScreen', queryParameters: {
+                            'isbn': libraryBook.isbn.toString(),
+                            'bookName': libraryBook.bookName,
+                            'bookImage': libraryBook.bookImage,
+                            'bookAuthor': libraryBook.bookAuthor,
+                            'bookCategory': libraryBook.bookCategory,
+                            'bookSummery': libraryBook.bookSummery,
+                            'bookPublisher': libraryBook.bookPublisher,
+                            'inMyLibrary': 'true',
+                          }),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
-                              'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788954699075.jpg',
+                              '${libraryBook.bookImage}',
                               width: 300.0,
                               height: 200.0,
                               fit: BoxFit.cover,

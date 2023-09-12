@@ -1,18 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '/backend/schema/structs/index.dart';
 
 import '/index.dart';
 import '/main.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/lat_lng.dart';
-import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -34,7 +26,9 @@ class AppStateNotifier extends ChangeNotifier {
 }
 
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
-      initialLocation: '/',
+      initialLocation: FFAppState().isSignedIn
+          ? '/homeScreen'
+          : '/', //로그인 했으면 초기화면 homescreen
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) => LoginScreenWidget(),
@@ -69,6 +63,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => FinishReadingScreen1Widget(
             startTime: params.getParam('startTime', ParamType.DateTime),
             finishTime: params.getParam('finishTime', ParamType.DateTime),
+            readingDuration:
+                params.getParam('readingDuration', ParamType.String),
           ),
         ),
         FFRoute(
@@ -77,7 +73,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => FinishReadingScreen2Widget(
             startTime: params.getParam('startTime', ParamType.DateTime),
             finishTime: params.getParam('finishTime', ParamType.DateTime),
-            currentBook: params.getParam('currentBook', ParamType.JSON),
+            readingDuration:
+                params.getParam('readingDuration', ParamType.String),
+            // currentBook: params.getParam('currentBook', ParamType.),
           ),
         ),
         FFRoute(
@@ -90,7 +88,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'bookDetailScreen',
           path: '/bookDetailScreen',
-          builder: (context, params) => BookDetailScreenWidget(),
+          builder: (context, params) => BookDetailScreenWidget(
+            isbn: params.getParam('isbn', ParamType.int),
+            bookName: params.getParam('bookName', ParamType.String),
+            bookImage: params.getParam('bookImage', ParamType.String),
+            bookAuthor: params.getParam('bookAuthor', ParamType.String),
+            bookCategory: params.getParam('bookCategory', ParamType.String),
+            bookSummery: params.getParam('bookSummery', ParamType.String),
+            bookPublisher: params.getParam('bookPublisher', ParamType.String),
+            inMyLibrary: params.getParam('inMyLibrary', ParamType.bool),
+          ),
         ),
         FFRoute(
           name: 'noteListScreen',
@@ -98,9 +105,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NoteListScreenWidget(),
         ),
         FFRoute(
-          name: 'searchBook',
-          path: '/searchBook',
-          builder: (context, params) => SearchBookWidget(),
+          name: 'searchBookScreen',
+          path: '/searchBookScreen',
+          builder: (context, params) => SearchBookScreenWidget(
+            nowReading: params.getParam('nowReading', ParamType.bool) ?? false,
+          ),
         ),
         FFRoute(
           name: 'searchUserScreen',
@@ -119,19 +128,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/signUpUsernameScreen',
           builder: (context, params) => SignUpUsernameScreenWidget(),
         ),
-        FFRoute(
-          name: 'SignUpUsernameConfirmationScreen',
-          path: '/signUpUsernameConfirmationScreen',
-          builder: (context, params) =>
-              SignUpUsernameConfirmationScreenWidget(),
-        ),
+        // FFRoute(
+        //   name: 'SignUpUsernameConfirmationScreen',
+        //   path: '/signUpUsernameConfirmationScreen',
+        //   builder: (context, params) =>
+        //       SignUpUsernameConfirmationScreenWidget(),
+        // ),
         FFRoute(
           name: 'LibraryOtherScreen',
           path: '/libraryOtherScreen',
           builder: (context, params) => LibraryOtherScreenWidget(
             username: params.getParam('username', ParamType.String),
           ),
-        )
+        ),
+        FFRoute(
+          name: 'FollowingListScreen',
+          path: '/FollowingListScreen',
+          builder: (context, params) => FollowingListScreenWidget(),
+        ),
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 

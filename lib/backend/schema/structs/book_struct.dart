@@ -13,12 +13,14 @@ class BookStruct extends BaseStruct {
     String? bookCategory,
     String? bookSummery,
     String? bookImage,
+    String? bookPublisher,
   })  : _isbn = isbn,
         _bookName = bookName,
         _bookAuthor = bookAuthor,
         _bookCategory = bookCategory,
         _bookSummery = bookSummery,
-        _bookImage = bookImage;
+        _bookImage = bookImage,
+        _bookPublisher = bookPublisher;
 
   // "Isbn" field.
   int? _isbn;
@@ -57,6 +59,12 @@ class BookStruct extends BaseStruct {
   set bookImage(String? val) => _bookImage = val;
   bool hasBookImage() => _bookImage != null;
 
+  // "bookPublisher" field.
+  String? _bookPublisher;
+  String get bookPublisher => _bookPublisher ?? '';
+  set bookPublisher(String? val) => _bookPublisher = val;
+  bool hasBookPublisher() => _bookPublisher != null;
+
   static BookStruct fromMap(Map<String, dynamic> data) => BookStruct(
         isbn: castToType<int>(data['Isbn']),
         bookName: data['bookName'] as String?,
@@ -64,6 +72,7 @@ class BookStruct extends BaseStruct {
         bookCategory: data['bookCategory'] as String?,
         bookSummery: data['bookSummery'] as String?,
         bookImage: data['bookImage'] as String?,
+        bookPublisher: data['bookPublisher'] as String?,
       );
 
   static BookStruct? maybeFromMap(dynamic data) =>
@@ -75,6 +84,7 @@ class BookStruct extends BaseStruct {
         'bookAuthor': _bookAuthor,
         'bookCategory': _bookCategory,
         'bookSummery': _bookSummery,
+        'bookImage': _bookImage,
         'bookImage': _bookImage,
       }.withoutNulls;
 
@@ -102,6 +112,10 @@ class BookStruct extends BaseStruct {
         ),
         'bookImage': serializeParam(
           _bookImage,
+          ParamType.String,
+        ),
+        'bookPublisher': serializeParam(
+          _bookPublisher,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -138,6 +152,11 @@ class BookStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        bookPublisher: deserializeParam(
+          data['bookPublisher'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -151,12 +170,20 @@ class BookStruct extends BaseStruct {
         bookAuthor == other.bookAuthor &&
         bookCategory == other.bookCategory &&
         bookSummery == other.bookSummery &&
-        bookImage == other.bookImage;
+        bookImage == other.bookImage &&
+        bookPublisher == other.bookPublisher;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([isbn, bookName, bookAuthor, bookCategory, bookSummery, bookImage]);
+  int get hashCode => const ListEquality().hash([
+        isbn,
+        bookName,
+        bookAuthor,
+        bookCategory,
+        bookSummery,
+        bookImage,
+        bookPublisher
+      ]);
 }
 
 BookStruct createBookStruct({
@@ -166,6 +193,7 @@ BookStruct createBookStruct({
   String? bookCategory,
   String? bookSummery,
   String? bookImage,
+  String? bookPublisher,
 }) =>
     BookStruct(
       isbn: isbn,
@@ -174,4 +202,5 @@ BookStruct createBookStruct({
       bookCategory: bookCategory,
       bookSummery: bookSummery,
       bookImage: bookImage,
+      bookPublisher: bookPublisher,
     );

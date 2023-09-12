@@ -114,7 +114,7 @@ class _SelectReadingStateWidgetState extends State<SelectReadingStateWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               Navigator.pop(
-                                  context, '${Constants.readingState[state]}');
+                                  context, state);
                             },
                             child: Container(
                               width: double.infinity,

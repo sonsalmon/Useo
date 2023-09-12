@@ -8,7 +8,6 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'timer_screen_model.dart';
 export 'timer_screen_model.dart';
@@ -157,7 +156,7 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                                 4.0, 0.0, 4.0, 0.0),
                             child: Text(
                               dateTimeFormat(
-                                  'y년 M월 d일 H시 m분', widget.startTime),
+                                  'y년 M월 d일 H시 m분 부터...', widget.startTime),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -166,16 +165,6 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                                         .secondaryText,
                                   ),
                             ),
-                          ),
-                          Text(
-                            '부터...',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Readex Pro',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                ),
                           ),
                         ],
                       ),
@@ -194,7 +183,7 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                     initialTime: _model.timerMilliseconds,
                     getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
                       value,
-                      hours: false,
+                      hours: true,
                       milliSecond: false,
                     ),
                     timer: _model.timerController,
@@ -271,6 +260,7 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                                               .secondsSinceEpoch),
                                       ParamType.DateTime,
                                     ),
+                                    'readingDuration': _model.timerValue,
                                   }.withoutNulls,
                                   extra: <String, dynamic>{
                                     kTransitionInfoKey: TransitionInfo(

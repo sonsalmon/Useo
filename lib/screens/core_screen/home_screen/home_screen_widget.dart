@@ -151,8 +151,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                     ),
                     Expanded(
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 1.0,
-                        height: MediaQuery.sizeOf(context).height * 1.0,
+                        // width: MediaQuery.sizeOf(context).width * 1.0,
+                        // height: MediaQuery.sizeOf(context).height * 1.0,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -163,45 +163,53 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                           children: [
                             Flexible(
                               flex: 1,
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.7,
-                                height: MediaQuery.sizeOf(context).height * 0.4,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: Image.asset(
-                                      'assets/images/inaki-del-olmo-NIJuEQw0RKg-unsplash.jpg',
-                                    ).image,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  shape: BoxShape.rectangle,
-                                ),
-                                child: FFButtonWidget(
-                                  onPressed: () {
-                                    print('Button pressed ...');
-                                  },
-                                  text: '내 서재',
-                                  options: FFButtonOptions(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          fontSize: 32.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    elevation: 3.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Container(
+                                  width: MediaQuery.sizeOf(context).width * 0.7,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.4,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: Image.asset(
+                                        'assets/images/inaki-del-olmo-NIJuEQw0RKg-unsplash.jpg',
+                                      ).image,
                                     ),
                                     borderRadius: BorderRadius.circular(10.0),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: FFButtonWidget(
+                                    onPressed: () {
+                                      context.pushNamed('FollowingListScreen');
+                                      print('Button pressed ...');
+                                    },
+                                    text: '이웃 서재',
+                                    options: FFButtonOptions(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 0.0, 24.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            fontSize: 32.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      elevation: 3.0,
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -301,7 +309,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                         size: 24.0,
                                       ),
                                       onPressed: () async {
-                                        context.pushNamed('searchBook');
+                                        context.pushNamed(
+                                          'searchBookScreen',
+                                        );
                                       },
                                     ),
                                   ),

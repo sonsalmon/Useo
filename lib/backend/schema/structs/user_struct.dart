@@ -1,7 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
 
-import '/backend/schema/util/schema_util.dart';
-
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -10,10 +8,12 @@ class UserStruct extends BaseStruct {
     int? userId,
     String? userName,
     String? userLocation,
+    String? userProfileImage,
     List<BookStruct>? userBookList,
   })  : _userId = userId,
         _userName = userName,
         _userLocation = userLocation,
+        _userProfileImage = userProfileImage,
         _userBookList = userBookList;
 
   // "userId" field.
@@ -35,6 +35,12 @@ class UserStruct extends BaseStruct {
   set userLocation(String? val) => _userLocation = val;
   bool hasUserLocation() => _userLocation != null;
 
+  // "userProfileImage" field.
+  String? _userProfileImage;
+  String get userProfileImage => _userProfileImage ?? '';
+  set userProfielImage(String? val) => _userProfileImage = val;
+  bool hasUserProfileImage() => _userProfileImage != null;
+
   // "userBookList" field.
   List<BookStruct>? _userBookList;
   List<BookStruct> get userBookList => _userBookList ?? const [];
@@ -47,6 +53,7 @@ class UserStruct extends BaseStruct {
         userId: castToType<int>(data['userId']),
         userName: data['userName'] as String?,
         userLocation: data['userLocation'] as String?,
+        userProfileImage: data['userProfileImage'] as String?,
         userBookList: getStructList(
           data['userBookList'],
           BookStruct.fromMap,
@@ -60,6 +67,7 @@ class UserStruct extends BaseStruct {
         'userId': _userId,
         'userName': _userName,
         'userLocation': _userLocation,
+        'userProfileImage': _userProfileImage,
         'userBookList': _userBookList?.map((e) => e.toMap()).toList(),
       }.withoutNulls;
 
@@ -75,6 +83,10 @@ class UserStruct extends BaseStruct {
         ),
         'userLocation': serializeParam(
           _userLocation,
+          ParamType.String,
+        ),
+        'userProfileImage': serializeParam(
+          _userProfileImage,
           ParamType.String,
         ),
         'userBookList': serializeParam(
@@ -101,6 +113,11 @@ class UserStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        userProfileImage: deserializeParam(
+          data['userProfileImage'],
+          ParamType.String,
+          false,
+        ),
         userBookList: deserializeStructParam<BookStruct>(
           data['userBookList'],
           ParamType.DataStruct,
@@ -119,21 +136,24 @@ class UserStruct extends BaseStruct {
         userId == other.userId &&
         userName == other.userName &&
         userLocation == other.userLocation &&
+        userProfileImage == other.userProfileImage &&
         listEquality.equals(userBookList, other.userBookList);
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([userId, userName, userLocation, userBookList]);
+  int get hashCode => const ListEquality()
+      .hash([userId, userName, userLocation, userProfileImage, userBookList]);
 }
 
 UserStruct createUserStruct({
   int? userId,
   String? userName,
   String? userLocation,
+  String? userProfileImage,
 }) =>
     UserStruct(
       userId: userId,
       userName: userName,
       userLocation: userLocation,
+      userProfileImage: userProfileImage,
     );

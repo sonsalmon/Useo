@@ -1,9 +1,5 @@
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class SignUpUsernameScreenModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
@@ -11,8 +7,8 @@ class SignUpUsernameScreenModel extends FlutterFlowModel {
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for EmailAddress widget.
-  TextEditingController? emailAddressController;
-  String? Function(BuildContext, String?)? emailAddressControllerValidator;
+  TextEditingController? usernameController;
+  String? Function(BuildContext, String?)? usernameControllerValidator;
 
   /// Initialization and disposal methods.
 
@@ -20,7 +16,7 @@ class SignUpUsernameScreenModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    emailAddressController?.dispose();
+    usernameController?.dispose();
   }
 
   /// Action blocks are added here.

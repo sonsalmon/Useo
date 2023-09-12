@@ -93,23 +93,23 @@ class _LibraryOtherScreenWidgetState extends State<LibraryOtherScreenWidget> {
                             style: FlutterFlowTheme.of(context).bodyMedium,
                           ),
                         ),
-                        ToggleIcon(
-                          onPressed: () async {
-                            setState(() => FFAppState().dummyBool =
-                                !FFAppState().dummyBool);
-                          },
-                          value: FFAppState().dummyBool,
-                          onIcon: Icon(
-                            Icons.favorite_sharp,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 25.0,
-                          ),
-                          offIcon: Icon(
-                            Icons.favorite_border,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 25.0,
-                          ),
-                        ),
+                        // ToggleIcon(
+                        //   onPressed: () async {
+                        //     setState(() => FFAppState().dummyBool =
+                        //         !FFAppState().dummyBool);
+                        //   },
+                        //   value: FFAppState().dummyBool,
+                        //   onIcon: Icon(
+                        //     Icons.favorite_sharp,
+                        //     color: FlutterFlowTheme.of(context).primary,
+                        //     size: 25.0,
+                        //   ),
+                        //   offIcon: Icon(
+                        //     Icons.favorite_border,
+                        //     color: FlutterFlowTheme.of(context).secondaryText,
+                        //     size: 25.0,
+                        //   ),
+                        // ),
                       ],
                     ),
                     Padding(

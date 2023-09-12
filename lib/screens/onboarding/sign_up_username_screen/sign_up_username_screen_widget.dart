@@ -25,7 +25,7 @@ class _SignUpUsernameScreenWidgetState
     super.initState();
     _model = createModel(context, () => SignUpUsernameScreenModel());
 
-    _model.emailAddressController ??= TextEditingController();
+    _model.usernameController ??= TextEditingController();
   }
 
   @override
@@ -114,7 +114,7 @@ class _SignUpUsernameScreenWidgetState
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       35.0, 12.0, 35.0, 12.0),
                                   child: Text(
-                                    '별명을 설정해주세요. 별명은 서재 이름으로 사용됩니다. 추후에 변경이 가능합니다.',
+                                    '별명을 설정해주세요. 별명은 서재 이름으로 사용됩니다. ',
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium,
                                   ),
@@ -129,8 +129,7 @@ class _SignUpUsernameScreenWidgetState
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             40.0, 24.0, 40.0, 12.0),
                                         child: TextFormField(
-                                          controller:
-                                              _model.emailAddressController,
+                                          controller: _model.usernameController,
                                           textInputAction: TextInputAction.done,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -188,7 +187,7 @@ class _SignUpUsernameScreenWidgetState
                                                 fontWeight: FontWeight.normal,
                                               ),
                                           validator: _model
-                                              .emailAddressControllerValidator
+                                              .usernameControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -203,7 +202,18 @@ class _SignUpUsernameScreenWidgetState
                                 40.0, 12.0, 40.0, 16.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                context.pushReplacementNamed('HomeScreen');
+                                setState(() {
+                                  FFAppState().signupUsername =
+                                      _model.usernameController.text;
+                                });
+                                // api call
+                                // AppState 이메일,비번,유저네임 값으로 회원가입
+                                //로그인 필요
+                                FFAppState().isSignedIn = true;
+                                //flush routing stack
+                                // goRouter.removeAll();
+                                context.goNamed('HomeScreen');
+                                // context.pushReplacementNamed('HomeScreen');
                               },
                               text: '회원 가입',
                               options: FFButtonOptions(

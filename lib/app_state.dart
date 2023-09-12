@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -43,10 +42,16 @@ class FFAppState extends ChangeNotifier {
     _currentSearch = _value;
   }
 
-  bool _dummyBool = true;
-  bool get dummyBool => _dummyBool;
-  set dummyBool(bool _value) {
-    _dummyBool = _value;
+  bool _isSignedIn = false;
+  bool get isSignedIn => _isSignedIn;
+  set isSignedIn(bool _value) {
+    _isSignedIn = _value;
+  }
+
+  BookStruct _mostRecentReadBook = BookStruct();
+  BookStruct get mostRecentReadBook => _mostRecentReadBook;
+  set mostRecentReadBook(BookStruct _value) {
+    _mostRecentReadBook = _value;
   }
 }
 

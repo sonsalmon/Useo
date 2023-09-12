@@ -5,10 +5,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'finish_reading_screen2_model.dart';
+import 'package:my_useo/constants.dart' as Constants;
 export 'finish_reading_screen2_model.dart';
 
 class FinishReadingScreen2Widget extends StatefulWidget {
@@ -16,12 +16,15 @@ class FinishReadingScreen2Widget extends StatefulWidget {
     Key? key,
     required this.startTime,
     required this.finishTime,
-    required this.currentBook,
+    required this.readingDuration,
+    // required this.currentBook,
   }) : super(key: key);
 
   final DateTime? startTime;
   final DateTime? finishTime;
-  final dynamic currentBook;
+  final String readingDuration;
+  // final dynamic currentBook;
+  // Duration readingDuration;
 
   @override
   _FinishReadingScreen2WidgetState createState() =>
@@ -38,6 +41,7 @@ class _FinishReadingScreen2WidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => FinishReadingScreen2Model());
+    // widget.readingDuration = widget.finishTime!.difference(widget.startTime!);
   }
 
   @override
@@ -204,7 +208,7 @@ class _FinishReadingScreen2WidgetState
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 10.0, 0.0, 0.0),
                               child: Text(
-                                '00:00:00',
+                                '${widget.readingDuration}',
                                 style: FlutterFlowTheme.of(context)
                                     .titleLarge
                                     .override(
@@ -296,7 +300,9 @@ class _FinishReadingScreen2WidgetState
                                         0.0, 10.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
-                                        _model.readingProgress?.toString(),
+                                        _model.readingProgress
+                                            ?.toInt()
+                                            .toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -359,8 +365,8 @@ class _FinishReadingScreen2WidgetState
                           ),
                         );
                       },
-                    ).then(
-                        (value) => setState(() => _model.readingState = value));
+                    ).then((value) =>
+                        setState(() => _model.readingStateKey = value));
 
                     setState(() {});
                   },
@@ -385,7 +391,10 @@ class _FinishReadingScreen2WidgetState
                           padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 0.0, 12.0, 0.0),
                           child: Icon(
-                            Icons.menu_book_rounded,
+                            valueOrDefault(
+                                Constants
+                                    .readingStateIcon[_model.readingStateKey],
+                                Icons.menu_book_rounded),
                             color: FlutterFlowTheme.of(context).secondary,
                             size: 60.0,
                           ),
@@ -405,7 +414,10 @@ class _FinishReadingScreen2WidgetState
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 0.0),
                                 child: Text(
-                                  '읽고 있는 중',
+                                  valueOrDefault(
+                                      Constants
+                                          .readingState[_model.readingStateKey],
+                                      Constants.readingState['reading']!),
                                   style: FlutterFlowTheme.of(context)
                                       .titleLarge
                                       .override(
