@@ -63,7 +63,7 @@ class _SortSheetWidgetState extends State<SortSheetWidget> {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  Navigator.pop(context, Constants.sortOptions[option]);
+                  Navigator.pop(context, option);
                 },
                 child: Container(
                   width: double.infinity,

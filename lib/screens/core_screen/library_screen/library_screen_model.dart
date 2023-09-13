@@ -2,7 +2,6 @@ import 'package:my_useo/backend/schema/structs/index.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:my_useo/constants.dart' as Constants;
 
 class LibraryScreenModel extends FlutterFlowModel {
   ///  Local state fields for this page.
@@ -17,8 +16,9 @@ class LibraryScreenModel extends FlutterFlowModel {
 
   String? searchKeyword = '';
 
+  bool isSearching = false;
   List<BookStruct> myLibrary = []; //api call 불러와야 함.
-  
+  List<BookStruct> filteredBookList = []; //api call 불러와야 함.
 
   ///  State fields for stateful widgets in this page.
 
@@ -27,9 +27,17 @@ class LibraryScreenModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Bottom Sheet - sortSheet] action in Text widget.
   // String? sortOption = '최근 추가순'; //defalt값을 어떻게?
-  String sortOption = Constants.sortOptions['recent_add']!;
+  String sortOption = 'recent_add';
 
   /// Initialization and disposal methods.
+  void sortBookList() {
+    switch (sortOption) {
+      case 'title':
+        filteredBookList.sort((a, b) => a.bookName.compareTo(b.bookName));
+      case 'title_reverse':
+        filteredBookList.sort((a, b) => b.bookName.compareTo(a.bookName));
+    }
+  }
 
   void initState(BuildContext context) {
     myLibrary.add(
@@ -65,6 +73,7 @@ class LibraryScreenModel extends FlutterFlowModel {
           bookSummery: '룩백 줄거리',
           bookPublisher: '멋진 출판사'),
     );
+    filteredBookList = myLibrary;
   }
 
   void dispose() {

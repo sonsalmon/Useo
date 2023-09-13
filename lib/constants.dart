@@ -3,8 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const Map<String, String> sortOptions = {
   'recent_add': "최근 추가 순",
-  'title': '제목 내림차순',
-  'author': '작가 내림차순',
+  'title': '제목 오름차순',
+  'title_reverse': '제목 내림차순',
+  'author': '작가 오름차순',
+  'author_reverse': '작가 내림차순',
   'recent_read': '최근 읽은 순',
 };
 

@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:my_useo/constants.dart' as Constants;
 import 'library_screen_model.dart';
 export 'library_screen_model.dart';
 
@@ -85,9 +86,26 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                                   16.0, 0.0, 16.0, 0.0),
                               child: TextFormField(
                                 controller: _model.textController,
-                                autofocus: true,
+                                autofocus: false,
                                 textInputAction: TextInputAction.search,
                                 obscureText: false,
+                                onTap: () {
+                                  setState(() {
+                                    _model.isSearching = true;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  print(_model.filteredBookList);
+                                  if (_model.isSearching) {
+                                    setState(() {
+                                      _model.filteredBookList = _model.myLibrary
+                                          .where((book) => book.bookName
+                                              .toLowerCase()
+                                              .contains(value.toLowerCase()))
+                                          .toList();
+                                    });
+                                  }
+                                },
                                 decoration: InputDecoration(
                                   labelText: '책 검색',
                                   labelStyle:
@@ -139,13 +157,18 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                               focusColor: Colors.transparent,
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
-                              onTap: () async {},
-                              child: Icon(
-                                Icons.search_outlined,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 35.0,
-                              ),
+                              onTap: () async {
+                                setState(() {
+                                  _model.isSearching = !_model.isSearching;
+                                  if (!_model.isSearching) {
+                                    _model.textController?.clear();
+                                    _model.filteredBookList = _model.myLibrary;
+                                  }
+                                });
+                              },
+                              child: Icon(_model.isSearching
+                                  ? Icons.cancel
+                                  : Icons.search),
                             ),
                           ),
                         ],
@@ -187,15 +210,16 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                           );
                         },
                       );
-                      print(value.runtimeType);
-                      print(value);
                       // ).then(
                       // (value) => setState(() => _model.sortOption = value));
-                      setState(() => _model.sortOption =
-                          value != null ? value : _model.sortOption);
+                      setState(() {
+                        _model.sortOption =
+                            (value != null) ? value : _model.sortOption;
+                        _model.sortBookList();
+                      });
                     },
                     child: Text(
-                      _model.sortOption,
+                      Constants.sortOptions[_model.sortOption]!,
                       style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   ),
@@ -222,7 +246,7 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                     ),
                     scrollDirection: Axis.vertical,
                     children: [
-                      for (var libraryBook in _model.myLibrary)
+                      for (var libraryBook in _model.filteredBookList)
                         InkWell(
                           onTap: () => context
                               .pushNamed('bookDetailScreen', queryParameters: {
