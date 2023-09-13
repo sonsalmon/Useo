@@ -12,6 +12,7 @@ const Map<String, String> sortOptions = {
 
 const Map<String, String> readingState = {
   'reading': '읽는 중이에요',
+  'later': '읽을 예정이에요',
   'pause': '잠시 멈췄어요',
   'quit': '읽다 그만뒀어요',
   'finish': '다 읽었어요',
@@ -19,6 +20,7 @@ const Map<String, String> readingState = {
 };
 const Map<String, IconData> readingStateIcon = {
   'reading': Icons.menu_book_outlined,
+  'later': Icons.watch_later_outlined,
   'pause': Icons.pause_rounded,
   'quit': Icons.hourglass_empty_rounded,
   'finish': FontAwesomeIcons.award,
