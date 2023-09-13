@@ -29,6 +29,8 @@ class LibraryScreenModel extends FlutterFlowModel {
   // String? sortOption = '최근 추가순'; //defalt값을 어떻게?
   String sortOption = 'recent_add';
 
+  final unfocusNode = FocusNode();
+
   /// Initialization and disposal methods.
   void sortBookList() {
     switch (sortOption) {
