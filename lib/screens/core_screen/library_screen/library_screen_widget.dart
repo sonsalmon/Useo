@@ -74,11 +74,20 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          '나의 서재',
-                          style: FlutterFlowTheme.of(context).headlineLarge,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '나의 서재',
+                              style: FlutterFlowTheme.of(context).headlineLarge,
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  context.pushNamed('SettingScreen'),
+                              icon: Icon(size: 30, Icons.settings_outlined),
+                            )
+                          ],
                         ),
                       ),
                       Padding(
