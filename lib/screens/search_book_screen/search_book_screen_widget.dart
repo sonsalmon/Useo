@@ -61,7 +61,7 @@ class _SearchBookWidgetState extends State<SearchBookScreenWidget>
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.safePop();
             },
           ),
           title: Text(
@@ -80,7 +80,8 @@ class _SearchBookWidgetState extends State<SearchBookScreenWidget>
             children: [
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
-                child: TextFormField( //onChanged로 변경될 때마다 api 호출
+                child: TextFormField(
+                  //onChanged로 변경될 때마다 api 호출
                   controller: _model.textController,
                   obscureText: false,
                   decoration: InputDecoration(
@@ -171,7 +172,24 @@ class _SearchBookWidgetState extends State<SearchBookScreenWidget>
                             onTap: () async {
                               widget.nowReading
                                   ? context.pop(searchResultBook)
-                                  : context.pop(); //DB에 책 등록
+                                  : context.pushReplacementNamed(
+                                      'bookDetailScreen',
+                                      queryParameters: {
+                                          'isbn':
+                                              searchResultBook.isbn.toString(),
+                                          'bookName': searchResultBook.bookName,
+                                          'bookImage':
+                                              searchResultBook.bookImage,
+                                          'bookAuthor':
+                                              searchResultBook.bookAuthor,
+                                          'bookCategory':
+                                              searchResultBook.bookCategory,
+                                          'bookSummery':
+                                              searchResultBook.bookSummery,
+                                          'bookPublisher':
+                                              searchResultBook.bookPublisher,
+                                          'inMyLibrary': false.toString(),
+                                        }); //DB에 책 등록
                             },
                             child: Container(
                               width: 100.0,
