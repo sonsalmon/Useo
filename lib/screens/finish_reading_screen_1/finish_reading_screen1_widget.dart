@@ -311,7 +311,7 @@ class _FinishReadingScreen1WidgetState
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 1.0,
-                                        height: 124.0,
+                                        height: 123.0,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

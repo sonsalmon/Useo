@@ -97,7 +97,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                   Expanded(
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -305,7 +305,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 24.0, 0.0, 64.0),
+                                0.0, 24.0, 0.0, 0),
                             child: RichText(
                               text: TextSpan(
                                 children: [
