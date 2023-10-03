@@ -29,3 +29,9 @@ export '/screens/core_screen/library_other_screen/library_other_screen_widget.da
 
 export '/screens/following_list_screen/following_list_screen_widget.dart'
     show FollowingListScreenWidget;
+
+export '/screens/setting_screen/setting_screen_widget.dart'
+    show SettingScreenWidget;
+
+export '/screens/edit_profile_screen/edit_profile_screen_widget.dart'
+    show EditProfileScreenWidget;

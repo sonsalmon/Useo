@@ -58,7 +58,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'finishReadingScreen_1',
+          name: 'FinishReadingScreen_1',
           path: '/finishReadingScreen1',
           builder: (context, params) => FinishReadingScreen1Widget(
             startTime: params.getParam('startTime', ParamType.DateTime),
@@ -68,7 +68,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'finishReadingScreen_2',
+          name: 'FinishReadingScreen_2',
           path: '/finishReadingScreen2',
           builder: (context, params) => FinishReadingScreen2Widget(
             startTime: params.getParam('startTime', ParamType.DateTime),
@@ -86,7 +86,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : LibraryScreenWidget(),
         ),
         FFRoute(
-          name: 'bookDetailScreen',
+          name: 'BookDetailScreen',
           path: '/bookDetailScreen',
           builder: (context, params) => BookDetailScreenWidget(
             isbn: params.getParam('isbn', ParamType.int),
@@ -100,19 +100,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'noteListScreen',
+          name: 'NoteListScreen',
           path: '/noteListScreen',
           builder: (context, params) => NoteListScreenWidget(),
         ),
         FFRoute(
-          name: 'searchBookScreen',
+          name: 'SearchBookScreen',
           path: '/searchBookScreen',
           builder: (context, params) => SearchBookScreenWidget(
             nowReading: params.getParam('nowReading', ParamType.bool) ?? false,
           ),
         ),
         FFRoute(
-          name: 'searchUserScreen',
+          name: 'SearchUserScreen',
           path: '/searchUserScreen',
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'searchUserScreen')
@@ -145,6 +145,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'FollowingListScreen',
           path: '/FollowingListScreen',
           builder: (context, params) => FollowingListScreenWidget(),
+        ),
+        FFRoute(
+          name: 'SettingScreen',
+          path: '/settingScreen',
+          builder: (context, params) => SettingScreenWidget(),
+        ),
+        FFRoute(
+          name: 'EditProfileScreen',
+          path: '/editProfileScreen',
+          builder: (context, params) => EditProfileScreenWidget(),
         ),
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

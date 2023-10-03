@@ -11,6 +11,12 @@ class FFAppState extends ChangeNotifier {
 
   FFAppState._internal();
 
+  String _tempProfilePic = '';
+  String get tempProfilePic => _tempProfilePic;
+  set tempProfilePic(String _value) {
+    _tempProfilePic = _value;
+  }
+
   Future initializePersistedState() async {}
 
   void update(VoidCallback callback) {
