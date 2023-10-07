@@ -46,8 +46,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         body: SafeArea(
           top: true,
-          child: Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
+          child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
               constraints: BoxConstraints(
@@ -94,247 +93,237 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 12.0, 0.0, 12.0),
-                            child: Text(
-                              '이메일과 비밀번호를 입력해주세요.',
-                              style: FlutterFlowTheme.of(context).labelMedium,
-                            ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 12.0, 0.0, 12.0),
+                          child: Text(
+                            '이메일과 비밀번호를 입력해주세요.',
+                            style: FlutterFlowTheme.of(context).labelMedium,
                           ),
-                          Form(
-                            key: _model.formKey,
-                            autovalidateMode: AutovalidateMode.disabled,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      40.0, 24.0, 40.0, 12.0),
-                                  child: TextFormField(
-                                    controller: _model.emailAddressController,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Email Address',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFDADADA),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      filled: true,
-                                      fillColor: Color(0xFFF9F9F9),
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: _model
-                                        .emailAddressControllerValidator
-                                        .asValidator(context),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      40.0, 0.0, 40.0, 12.0),
-                                  child: TextFormField(
-                                    controller: _model.passwordController,
-                                    obscureText: !_model.passwordVisibility,
-                                    decoration: InputDecoration(
-                                      hintText: 'Password',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFDADADA),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      filled: true,
-                                      fillColor: Color(0xFFF9F9F9),
-                                      suffixIcon: InkWell(
-                                        onTap: () => setState(
-                                          () => _model.passwordVisibility =
-                                              !_model.passwordVisibility,
-                                        ),
-                                        focusNode:
-                                            FocusNode(skipTraversal: true),
-                                        child: Icon(
-                                          _model.passwordVisibility
-                                              ? Icons.visibility_outlined
-                                              : Icons.visibility_off_outlined,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                    validator: _model
-                                        .passwordControllerValidator
-                                        .asValidator(context),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                40.0, 12.0, 40.0, 16.0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                // 이후 Auth 단계 필요
-                                if (_model.formKey.currentState == null ||
-                                    !_model.formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
-                                // api call
-                                setState(() {
-                                  FFAppState().isSignedIn = true;
-                                });
-                                context.goNamed('HomeScreen');
-                              },
-                              text: '로그인',
-                              options: FFButtonOptions(
-                                width: double.infinity,
-                                height: 60.0,
+                        ),
+                        Form(
+                          key: _model.formKey,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 12.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleMedium
-                                    .override(
-                                      fontFamily: 'Readex Pro',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                elevation: 0.0,
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.circular(20.0),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 24.0, 0.0, 0),
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '처음이신가요?',
-                                    style: TextStyle(),
-                                  ),
-                                  TextSpan(
-                                    text: '회원가입',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyLarge
+                                    40.0, 24.0, 40.0, 12.0),
+                                child: TextFormField(
+                                  controller: _model.emailAddressController,
+                                  obscureText: false,
+                                  textInputAction: TextInputAction.next,
+                                  decoration: InputDecoration(
+                                    hintText: 'Email Address',
+                                    hintStyle: FlutterFlowTheme.of(context)
+                                        .bodySmall
                                         .override(
                                           fontFamily: 'Readex Pro',
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                    mouseCursor: SystemMouseCursors.click,
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        context.pushNamed('SignUpScreen');
-                                      },
-                                  )
-                                ],
-                                style: FlutterFlowTheme.of(context).labelLarge,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFDADADA),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: Color(0xFFF9F9F9),
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: _model
+                                      .emailAddressControllerValidator
+                                      .asValidator(context),
+                                ),
                               ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    40.0, 0.0, 40.0, 12.0),
+                                child: TextFormField(
+                                  controller: _model.passwordController,
+                                  obscureText: !_model.passwordVisibility,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                          fontFamily: 'Readex Pro',
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFDADADA),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: Color(0xFFF9F9F9),
+                                    suffixIcon: InkWell(
+                                      onTap: () => setState(
+                                        () => _model.passwordVisibility =
+                                            !_model.passwordVisibility,
+                                      ),
+                                      focusNode: FocusNode(skipTraversal: true),
+                                      child: Icon(
+                                        _model.passwordVisibility
+                                            ? Icons.visibility_outlined
+                                            : Icons.visibility_off_outlined,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 16.0,
+                                      ),
+                                    ),
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                  validator: _model.passwordControllerValidator
+                                      .asValidator(context),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              40.0, 12.0, 40.0, 16.0),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              // 이후 Auth 단계 필요
+                              if (_model.formKey.currentState == null ||
+                                  !_model.formKey.currentState!.validate()) {
+                                return;
+                              }
+                              // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
+                              // api call
+                              setState(() {
+                                FFAppState().isSignedIn = true;
+                              });
+                              context.goNamed('HomeScreen');
+                            },
+                            text: '로그인',
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 60.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 12.0, 0.0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              elevation: 0.0,
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).primary,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(20.0),
+                              hoverColor:
+                                  FlutterFlowTheme.of(context).alternate,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '처음이신가요?',
+                                  style: TextStyle(),
+                                ),
+                                TextSpan(
+                                  text: '회원가입',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                  mouseCursor: SystemMouseCursors.click,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      context.pushNamed('SignUpScreen');
+                                    },
+                                )
+                              ],
+                              style: FlutterFlowTheme.of(context).labelLarge,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
