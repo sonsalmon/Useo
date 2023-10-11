@@ -59,6 +59,12 @@ class FFAppState extends ChangeNotifier {
   set mostRecentReadBook(BookStruct _value) {
     _mostRecentReadBook = _value;
   }
+
+  String _loginToken = '';
+  String get loginToken => _loginToken;
+  set loginToken(String _value) {
+    _loginToken = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

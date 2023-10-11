@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'login_screen_model.dart';
 export 'login_screen_model.dart';
 
@@ -104,7 +107,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 12.0, 0.0, 12.0),
                           child: Text(
-                            '이메일과 비밀번호를 입력해주세요.',
+                            '아이디와 비밀번호를 입력해주세요.',
                             style: FlutterFlowTheme.of(context).labelMedium,
                           ),
                         ),
@@ -122,7 +125,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                   obscureText: false,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
-                                    hintText: 'Email Address',
+                                    hintText: 'UserName',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
@@ -260,12 +263,26 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
+                              final loginUrl = Uri.parse(
+                                  'http://127.0.0.1:8000/users/login/');
+                              http.Response response =
+                                  await http.post(loginUrl, body: {
+                                'username': _model.emailAddressController.text,
+                                'password': _model.passwordController.text
+                              });
+
                               // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
                               // api call
-                              setState(() {
-                                FFAppState().isSignedIn = true;
-                              });
-                              context.goNamed('HomeScreen');
+                              if (response.statusCode == 200) {
+                                setState(() {
+                                  FFAppState().loginToken =
+                                      json.decode(response.body)['token'];
+                                  FFAppState().isSignedIn = true;
+                                });
+                                context.goNamed('HomeScreen');
+                              } else if (response.statusCode == 400) {
+                                print('아이디 또는 비밀번호가 일치하지 않습니다.');
+                              }
                             },
                             text: '로그인',
                             options: FFButtonOptions(

@@ -26,3 +26,5 @@ const Map<String, IconData> readingStateIcon = {
   'finish': FontAwesomeIcons.award,
   'never': Icons.do_not_disturb,
 };
+
+const String baseUrl = 'http://127.0.0.1:8000/';
