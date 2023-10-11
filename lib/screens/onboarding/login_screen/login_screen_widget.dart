@@ -27,7 +27,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
     super.initState();
     _model = createModel(context, () => LoginScreenModel());
 
-    _model.emailAddressController ??= TextEditingController();
+    _model.userNameController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
   }
 
@@ -121,7 +121,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     40.0, 24.0, 40.0, 12.0),
                                 child: TextFormField(
-                                  controller: _model.emailAddressController,
+                                  controller: _model.userNameController,
                                   obscureText: false,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
@@ -172,8 +172,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                         fontWeight: FontWeight.normal,
                                       ),
                                   keyboardType: TextInputType.emailAddress,
-                                  validator: _model
-                                      .emailAddressControllerValidator
+                                  validator: _model.userNameControllerValidator
                                       .asValidator(context),
                                 ),
                               ),
@@ -267,7 +266,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                   'http://127.0.0.1:8000/users/login/');
                               http.Response response =
                                   await http.post(loginUrl, body: {
-                                'username': _model.emailAddressController.text,
+                                'username': _model.userNameController.text,
                                 'password': _model.passwordController.text
                               });
 

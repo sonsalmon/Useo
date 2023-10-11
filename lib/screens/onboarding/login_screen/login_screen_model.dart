@@ -1,11 +1,5 @@
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:my_useo/constants.dart';
 
 class LoginScreenModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
@@ -14,8 +8,8 @@ class LoginScreenModel extends FlutterFlowModel {
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for EmailAddress widget.
-  TextEditingController? emailAddressController;
-  String? Function(BuildContext, String?)? emailAddressControllerValidator;
+  TextEditingController? userNameController;
+  String? Function(BuildContext, String?)? userNameControllerValidator;
   // State field(s) for Password widget.
   TextEditingController? passwordController;
   late bool passwordVisibility;
@@ -29,7 +23,7 @@ class LoginScreenModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    emailAddressController?.dispose();
+    userNameController?.dispose();
     passwordController?.dispose();
   }
 
