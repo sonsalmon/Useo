@@ -20,7 +20,7 @@ export '/screens/core_screen/search_user_screen/search_user_screen_widget.dart'
     show SearchUserScreenWidget;
 export '/screens/onboarding/sign_up_screen/sign_up_screen_widget.dart'
     show SignUpScreenWidget;
-export '/screens/onboarding/sign_up_username_screen/sign_up_username_screen_widget.dart'
+export 'screens/onboarding/sign_up_nickname_screen/sign_up_nickname_screen_widget.dart'
     show SignUpUsernameScreenWidget;
 // export '/screens/onboarding/sign_up_username_confirmation_screen/sign_up_username_confirmation_screen_widget.dart'
 //     show SignUpUsernameConfirmationScreenWidget;

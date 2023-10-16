@@ -1,9 +1,5 @@
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class SignUpScreenModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
@@ -11,12 +7,29 @@ class SignUpScreenModel extends FlutterFlowModel {
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for EmailAddress widget.
-  TextEditingController? emailAddressController;
-  String? Function(BuildContext, String?)? emailAddressControllerValidator;
+  TextEditingController? userNameController;
+  String? Function(BuildContext, String?)? userNameControllerValidator =
+      (BuildContext context, String? value) {
+    if (value == null || value.isEmpty) {
+      return '아이디를 입력해주세요.';
+    } else if (value.length < 4) {
+      return '아이디는 4글자 이상 입력해주세요.';
+    }
+    // else if (아이디 중복 검사)
+    return null;
+  };
   // State field(s) for Password widget.
   TextEditingController? passwordController1;
   late bool passwordVisibility1;
-  String? Function(BuildContext, String?)? passwordController1Validator;
+  String? Function(BuildContext, String?)? passwordController1Validator =
+      (BuildContext context, String? value) {
+    if (value == null || value.isEmpty) {
+      return '비밀번호를 입력해주세요.';
+    }
+    if (value.length < 6) {
+      return '비밀번호는 6자 이상으로 설정해주세요.';
+    }
+  };
   // State field(s) for Password widget.
   TextEditingController? passwordController2;
   late bool passwordVisibility2;
@@ -31,7 +44,7 @@ class SignUpScreenModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    emailAddressController?.dispose();
+    userNameController?.dispose();
     passwordController1?.dispose();
     passwordController2?.dispose();
   }

@@ -7,8 +7,8 @@ class SignUpUsernameScreenModel extends FlutterFlowModel {
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for EmailAddress widget.
-  TextEditingController? usernameController;
-  String? Function(BuildContext, String?)? usernameControllerValidator;
+  TextEditingController? nicknameController;
+  String? Function(BuildContext, String?)? nicknameControllerValidator;
 
   /// Initialization and disposal methods.
 
@@ -16,7 +16,7 @@ class SignUpUsernameScreenModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    usernameController?.dispose();
+    nicknameController?.dispose();
   }
 
   /// Action blocks are added here.

@@ -24,10 +24,10 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _signupEmail = '';
-  String get signupEmail => _signupEmail;
-  set signupEmail(String _value) {
-    _signupEmail = _value;
+  String _signupnickname = '';
+  String get signupnickname => _signupnickname;
+  set signupnickname(String _value) {
+    _signupnickname = _value;
   }
 
   String _signupPassword = '';
