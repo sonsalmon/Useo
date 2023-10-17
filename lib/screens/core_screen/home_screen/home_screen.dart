@@ -1,37 +1,26 @@
+import 'package:my_useo/api_service.dart';
+// from 'package:my_useo/api_service.dart' import getUserProfile;
+
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'home_screen_model.dart';
-export 'home_screen_model.dart';
 
-class HomeScreenWidget extends StatefulWidget {
-  const HomeScreenWidget({Key? key}) : super(key: key);
+import 'user_model.dart';
+import 'user_widget.dart';
+export 'user_model.dart';
 
-  @override
-  _HomeScreenWidgetState createState() => _HomeScreenWidgetState();
-}
+class HomeScreenWidget extends StatelessWidget {
+  HomeScreenWidget({Key? key}) : super(key: key);
 
-class _HomeScreenWidgetState extends State<HomeScreenWidget> {
-  late HomeScreenModel _model;
+  // late UserModel _model;
+  final Future<UserModel> user = ApiService.getUserProfile();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => HomeScreenModel());
-  }
-
-  @override
-  void dispose() {
-    _model.dispose();
-
-    super.dispose();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
@@ -70,79 +59,22 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 16.0, 0.0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        scaffoldKey.currentState!.openDrawer();
-                                      },
-                                      child: Container(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.asset(
-                                          'assets/images/userAvatar.png',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '연어로',
-                                            style: FlutterFlowTheme.of(context)
-                                                .displaySmall
-                                                .override(
-                                                  fontFamily: 'Outfit',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  fontSize: 32.0,
-                                                ),
-                                          ),
-                                          Text(
-                                            '님, 어서오세요',
-                                            style: FlutterFlowTheme.of(context)
-                                                .displaySmall
-                                                .override(
-                                                  fontFamily: 'Outfit',
-                                                  fontSize: 32.0,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          '프로필 메시지',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelMedium,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              child: FutureBuilder(
+                                future: user,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var profile = snapshot.data!;
+                                    return User(
+                                      scaffoldKey: scaffoldKey,
+                                      nickname: profile.nickname,
+                                      profileImage: profile.profileImage,
+                                      profileMessage: profile.profileMessage,
+                                    );
+                                  }
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
                               ),
                             ),
                           ],

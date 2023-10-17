@@ -1,7 +1,7 @@
 // Export pages
 export '/screens/onboarding/login_screen/login_screen_widget.dart'
     show LoginScreenWidget;
-export '/screens/core_screen/home_screen/home_screen_widget.dart'
+export 'screens/core_screen/home_screen/home_screen.dart'
     show HomeScreenWidget;
 export '/screens/timer_screen/timer_screen_widget.dart' show TimerScreenWidget;
 export '/screens/finish_reading_screen_1/finish_reading_screen1_widget.dart'
