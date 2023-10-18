@@ -17,21 +17,17 @@ class ApiService {
         ? Uri.parse('$baseUrl/$users/$user/ ?nickname=$nickname')
         : Uri.parse('$baseUrl/$users/$user/');
     // final url = Uri.parse('$baseUrl/$users/$user/');
-    print('${FFAppState().loginToken}');
     http.Response response = await http.get(
       Uri.parse('$baseUrl/$users/$user/'),
       headers: {
         'Authorization': 'Token ${FFAppState().loginToken}',
-        // 'Accept': 'application/json'
+        'Content-Type': 'application/json', //보내는 형식
+        'Accept': 'application/json', // 받는 형식
       },
     );
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       final decodedData = utf8.decode(response.bodyBytes); //응답을 utf-8형식으로 디코딩
-      print('디코드후: $decodedData');
       UserModel model = UserModel.fromJson(json.decode(decodedData));
-      print(
-          'model = ${model.nickname}, ${model.profileImage}, ${model.profileMessage}');
       return model;
     }
     throw Error();

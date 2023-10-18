@@ -39,8 +39,14 @@ class User extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: (profileImage == null)
-                  ? Image.asset('assets/images/default_profile.jpeg')
-                  : Image.network(profileImage!),
+                  ? Image.asset(
+                      'assets/images/default_profile.jpeg',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      profileImage!,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
         ),
