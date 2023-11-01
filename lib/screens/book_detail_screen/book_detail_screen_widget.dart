@@ -1,4 +1,5 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:my_useo/backend/schema/structs/index.dart';
 
 import '/components/select_reading_state/select_reading_state_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -13,22 +14,24 @@ export 'book_detail_screen_model.dart';
 class BookDetailScreenWidget extends StatefulWidget {
   const BookDetailScreenWidget({
     Key? key,
-    required this.isbn,
-    required this.bookName,
-    required this.bookImage,
-    required this.bookAuthor,
-    required this.bookCategory,
-    required this.bookSummery,
-    required this.bookPublisher,
+    // required this.isbn,
+    // required this.bookName,
+    // required this.bookImage,
+    // required this.bookAuthor,
+    // required this.bookCategory,
+    // required this.bookSummery,
+    // required this.bookPublisher,
+    required this.book,
     required this.inMyLibrary,
   }) : super(key: key);
-  final int isbn;
-  final String bookName;
-  final String bookImage;
-  final String bookAuthor;
-  final String bookCategory;
-  final String bookSummery;
-  final String bookPublisher;
+  // final int isbn;
+  // final String bookName;
+  // final String bookImage;
+  // final String bookAuthor;
+  // final String bookCategory;
+  // final String bookSummery;
+  // final String bookPublisher;
+  final BookStruct book;
 
   final bool inMyLibrary;
 
@@ -200,7 +203,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                             child: CachedNetworkImage(
                               fadeInDuration: Duration(milliseconds: 500),
                               fadeOutDuration: Duration(milliseconds: 500),
-                              imageUrl: '${widget.bookImage}',
+                              imageUrl: '${widget.book.cover}',
                               width: 160.0,
                               height: 250.0,
                               fit: BoxFit.cover,
@@ -213,7 +216,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                       child: Text(
-                        '${widget.bookName}',
+                        '${widget.book.title}',
                         style: FlutterFlowTheme.of(context).headlineMedium,
                       ),
                     ),
@@ -221,7 +224,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 0.0, 0.0),
                       child: Text(
-                        '${widget.bookAuthor}',
+                        '${widget.book.author}',
                         style: FlutterFlowTheme.of(context).labelMedium,
                       ),
                     ),
@@ -229,7 +232,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 0.0, 0.0),
                       child: Text(
-                        '${widget.bookPublisher}',
+                        '${widget.book.publisher}',
                         style: FlutterFlowTheme.of(context).labelMedium,
                       ),
                     ),

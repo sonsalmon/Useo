@@ -307,7 +307,7 @@ class _FinishReadingScreen1WidgetState
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image.network(
-                                        '${readingBook.bookImage}',
+                                        '${readingBook.cover}',
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 1.0,
@@ -319,7 +319,7 @@ class _FinishReadingScreen1WidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 4.0, 0.0, 4.0),
                                       child: Text(
-                                        '${readingBook.bookName}',
+                                        '${readingBook.title}',
                                         overflow: TextOverflow.ellipsis,
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall,
@@ -339,7 +339,7 @@ class _FinishReadingScreen1WidgetState
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 0.0, 0.0),
                   child: Text(
-                    '${_model.currentBook!.bookName}',
+                    '${_model.currentBook!.title}',
                     style: FlutterFlowTheme.of(context).bodyLarge,
                   ),
                 ),
@@ -370,7 +370,7 @@ class _FinishReadingScreen1WidgetState
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
-                              '${_model.currentBook!.bookImage}',
+                              '${_model.currentBook!.cover}',
                               width: 120.0,
                               height: 160.0,
                               fit: BoxFit.cover,
@@ -388,7 +388,7 @@ class _FinishReadingScreen1WidgetState
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 4.0, 0.0, 4.0),
                                 child: Text(
-                                  '${_model.currentBook!.bookName}',
+                                  '${_model.currentBook!.title}',
                                   style: FlutterFlowTheme.of(context).bodySmall,
                                 ),
                               ),
@@ -396,7 +396,7 @@ class _FinishReadingScreen1WidgetState
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 4.0, 0.0, 4.0),
                                 child: Text(
-                                  '${_model.currentBook!.bookAuthor}',
+                                  '${_model.currentBook!.author}',
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(

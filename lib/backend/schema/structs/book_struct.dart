@@ -7,115 +7,114 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class BookStruct extends BaseStruct {
   BookStruct({
-    int? isbn,
-    String? bookName,
-    String? bookAuthor,
-    String? bookCategory,
-    String? bookSummery,
-    String? bookImage,
-    String? bookPublisher,
+    String? isbn,
+    String? title,
+    String? author,
+    String? categoryName,
+    String? description,
+    String? cover,
+    String? publisher,
   })  : _isbn = isbn,
-        _bookName = bookName,
-        _bookAuthor = bookAuthor,
-        _bookCategory = bookCategory,
-        _bookSummery = bookSummery,
-        _bookImage = bookImage,
-        _bookPublisher = bookPublisher;
+        _title = title,
+        _author = author,
+        _categoryName = categoryName,
+        _description = description,
+        _cover = cover,
+        _publisher = publisher;
 
   // "Isbn" field.
-  int? _isbn;
-  int get isbn => _isbn ?? 0;
-  set isbn(int? val) => _isbn = val;
-  void incrementIsbn(int amount) => _isbn = isbn + amount;
+  String? _isbn;
+  String get isbn => _isbn ?? '';
+  set isbn(String? val) => _isbn = val;
+  // void incrementIsbn(int amount) => _isbn = isbn + amount;
   bool hasIsbn() => _isbn != null;
 
-  // "bookName" field.
-  String? _bookName;
-  String get bookName => _bookName ?? '';
-  set bookName(String? val) => _bookName = val;
-  bool hasBookName() => _bookName != null;
+  // "title" field.
+  String? _title;
+  String get title => _title ?? '';
+  set title(String? val) => _title = val;
+  bool hasTitle() => _title != null;
 
-  // "bookAuthor" field.
-  String? _bookAuthor;
-  String get bookAuthor => _bookAuthor ?? '';
-  set bookAuthor(String? val) => _bookAuthor = val;
-  bool hasBookAuthor() => _bookAuthor != null;
+  // "author" field.
+  String? _author;
+  String get author => _author ?? '';
+  set author(String? val) => _author = val;
+  bool hasAuthor() => _author != null;
 
-  // "bookCategory" field.
-  String? _bookCategory;
-  String get bookCategory => _bookCategory ?? '';
-  set bookCategory(String? val) => _bookCategory = val;
-  bool hasBookCategory() => _bookCategory != null;
+  // "categoryName" field.
+  String? _categoryName;
+  String get categoryName => _categoryName ?? '';
+  set categoryName(String? val) => _categoryName = val;
+  bool hasCategoryName() => _categoryName != null;
 
-  // "bookSummery" field.
-  String? _bookSummery;
-  String get bookSummery => _bookSummery ?? '';
-  set bookSummery(String? val) => _bookSummery = val;
-  bool hasBookSummery() => _bookSummery != null;
+  // "description" field.
+  String? _description;
+  String get description => _description ?? '';
+  set description(String? val) => _description = val;
+  bool hasdescription() => _description != null;
 
-  // "bookImage" field.
-  String? _bookImage;
-  String get bookImage => _bookImage ?? '';
-  set bookImage(String? val) => _bookImage = val;
-  bool hasBookImage() => _bookImage != null;
+  // "cover" field.
+  String? _cover;
+  String get cover => _cover ?? '';
+  set cover(String? val) => _cover = val;
+  bool hasCover() => _cover != null;
 
-  // "bookPublisher" field.
-  String? _bookPublisher;
-  String get bookPublisher => _bookPublisher ?? '';
-  set bookPublisher(String? val) => _bookPublisher = val;
-  bool hasBookPublisher() => _bookPublisher != null;
+  // "publisher" field.
+  String? _publisher;
+  String get publisher => _publisher ?? '';
+  set publisher(String? val) => _publisher = val;
+  bool hasPublisher() => _publisher != null;
 
   static BookStruct fromMap(Map<String, dynamic> data) => BookStruct(
-        isbn: castToType<int>(data['Isbn']),
-        bookName: data['bookName'] as String?,
-        bookAuthor: data['bookAuthor'] as String?,
-        bookCategory: data['bookCategory'] as String?,
-        bookSummery: data['bookSummery'] as String?,
-        bookImage: data['bookImage'] as String?,
-        bookPublisher: data['bookPublisher'] as String?,
+        isbn: data['isbn13'],
+        title: data['title'] as String?,
+        author: data['author'] as String?,
+        categoryName: data['categoryName'] as String?,
+        description: data['description'] as String?,
+        cover: data['cover'] as String?,
+        publisher: data['publisher'] as String?,
       );
 
   static BookStruct? maybeFromMap(dynamic data) =>
       data is Map<String, dynamic> ? BookStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'Isbn': _isbn,
-        'bookName': _bookName,
-        'bookAuthor': _bookAuthor,
-        'bookCategory': _bookCategory,
-        'bookSummery': _bookSummery,
-        'bookImage': _bookImage,
-        'bookImage': _bookImage,
+        'isbn13': _isbn,
+        'title': _title,
+        'author': _author,
+        'categoryName': _categoryName,
+        'description': _description,
+        'cover': _cover,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'Isbn': serializeParam(
+        'isbn': serializeParam(
           _isbn,
-          ParamType.int,
-        ),
-        'bookName': serializeParam(
-          _bookName,
           ParamType.String,
         ),
-        'bookAuthor': serializeParam(
-          _bookAuthor,
+        'title': serializeParam(
+          _title,
           ParamType.String,
         ),
-        'bookCategory': serializeParam(
-          _bookCategory,
+        'author': serializeParam(
+          _author,
           ParamType.String,
         ),
-        'bookSummery': serializeParam(
-          _bookSummery,
+        'categoryName': serializeParam(
+          _categoryName,
           ParamType.String,
         ),
-        'bookImage': serializeParam(
-          _bookImage,
+        'description': serializeParam(
+          _description,
           ParamType.String,
         ),
-        'bookPublisher': serializeParam(
-          _bookPublisher,
+        'cover': serializeParam(
+          _cover,
+          ParamType.String,
+        ),
+        'publisher': serializeParam(
+          _publisher,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -123,37 +122,37 @@ class BookStruct extends BaseStruct {
   static BookStruct fromSerializableMap(Map<String, dynamic> data) =>
       BookStruct(
         isbn: deserializeParam(
-          data['Isbn'],
-          ParamType.int,
-          false,
-        ),
-        bookName: deserializeParam(
-          data['bookName'],
+          data['isbn'],
           ParamType.String,
           false,
         ),
-        bookAuthor: deserializeParam(
-          data['bookAuthor'],
+        title: deserializeParam(
+          data['title'],
           ParamType.String,
           false,
         ),
-        bookCategory: deserializeParam(
-          data['bookCategory'],
+        author: deserializeParam(
+          data['author'],
           ParamType.String,
           false,
         ),
-        bookSummery: deserializeParam(
-          data['bookSummery'],
+        categoryName: deserializeParam(
+          data['categoryName'],
           ParamType.String,
           false,
         ),
-        bookImage: deserializeParam(
-          data['bookImage'],
+        description: deserializeParam(
+          data['description'],
           ParamType.String,
           false,
         ),
-        bookPublisher: deserializeParam(
-          data['bookPublisher'],
+        cover: deserializeParam(
+          data['cover'],
+          ParamType.String,
+          false,
+        ),
+        publisher: deserializeParam(
+          data['publisher'],
           ParamType.String,
           false,
         ),
@@ -166,41 +165,34 @@ class BookStruct extends BaseStruct {
   bool operator ==(Object other) {
     return other is BookStruct &&
         isbn == other.isbn &&
-        bookName == other.bookName &&
-        bookAuthor == other.bookAuthor &&
-        bookCategory == other.bookCategory &&
-        bookSummery == other.bookSummery &&
-        bookImage == other.bookImage &&
-        bookPublisher == other.bookPublisher;
+        title == other.title &&
+        author == other.author &&
+        categoryName == other.categoryName &&
+        description == other.description &&
+        cover == other.cover &&
+        publisher == other.publisher;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([
-        isbn,
-        bookName,
-        bookAuthor,
-        bookCategory,
-        bookSummery,
-        bookImage,
-        bookPublisher
-      ]);
+  int get hashCode => const ListEquality()
+      .hash([isbn, title, author, categoryName, description, cover, publisher]);
 }
 
 BookStruct createBookStruct({
-  int? isbn,
-  String? bookName,
-  String? bookAuthor,
-  String? bookCategory,
-  String? bookSummery,
-  String? bookImage,
-  String? bookPublisher,
+  String? isbn,
+  String? title,
+  String? author,
+  String? categoryName,
+  String? description,
+  String? cover,
+  String? publisher,
 }) =>
     BookStruct(
       isbn: isbn,
-      bookName: bookName,
-      bookAuthor: bookAuthor,
-      bookCategory: bookCategory,
-      bookSummery: bookSummery,
-      bookImage: bookImage,
-      bookPublisher: bookPublisher,
+      title: title,
+      author: author,
+      categoryName: categoryName,
+      description: description,
+      cover: cover,
+      publisher: publisher,
     );

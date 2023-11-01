@@ -15,7 +15,6 @@ export 'user_model.dart';
 class HomeScreenWidget extends StatelessWidget {
   HomeScreenWidget({Key? key}) : super(key: key);
 
-  // late UserModel _model;
   final Future<UserModel> user = ApiService.getUserProfile();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();

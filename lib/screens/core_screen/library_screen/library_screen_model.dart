@@ -35,48 +35,13 @@ class LibraryScreenModel extends FlutterFlowModel {
   void sortBookList() {
     switch (sortOption) {
       case 'title':
-        filteredBookList.sort((a, b) => a.bookName.compareTo(b.bookName));
+        filteredBookList.sort((a, b) => a.title.compareTo(b.title));
       case 'title_reverse':
-        filteredBookList.sort((a, b) => b.bookName.compareTo(a.bookName));
+        filteredBookList.sort((a, b) => b.title.compareTo(a.title));
     }
   }
 
-  void initState(BuildContext context) {
-    myLibrary.add(
-      BookStruct(
-          isbn: 0000,
-          bookName: '벼랑 끝에 서는 용기',
-          bookImage:
-              'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788955364880.jpg',
-          bookAuthor: '로렌 커닝햄',
-          bookCategory: '1',
-          bookSummery: '벼랑 끝에 서는 용기 줄거리',
-          bookPublisher: '예수전도단'),
-    );
-    myLibrary.add(
-      BookStruct(
-          isbn: 0001,
-          bookName: '도시와 그 불확실한 벽',
-          bookImage:
-              'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788954699075.jpg',
-          bookAuthor: '무라카미 하루키',
-          bookCategory: '1',
-          bookSummery: '도시와 그 불확실한 벽 줄거리',
-          bookPublisher: '멋진 출판사'),
-    );
-    myLibrary.add(
-      BookStruct(
-          isbn: 0002,
-          bookName: '룩 백',
-          bookImage:
-              'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168761841.jpg',
-          bookAuthor: 'Tatsuki Fujimoto',
-          bookCategory: '2',
-          bookSummery: '룩백 줄거리',
-          bookPublisher: '멋진 출판사'),
-    );
-    filteredBookList = myLibrary;
-  }
+  void initState(BuildContext context) {}
 
   void dispose() {
     textController?.dispose();

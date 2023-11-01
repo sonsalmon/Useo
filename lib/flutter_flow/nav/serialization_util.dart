@@ -149,6 +149,7 @@ enum ParamType {
   FFUploadedFile,
   JSON,
   DataStruct,
+  BookStruct,
 }
 
 dynamic deserializeParam<T>(
@@ -209,6 +210,11 @@ dynamic deserializeParam<T>(
       case ParamType.DataStruct:
         final data = json.decode(param) as Map<String, dynamic>? ?? {};
         return structBuilder != null ? structBuilder(data) : null;
+      
+      case ParamType.BookStruct:
+        final data = json.decode(param) as Map<String, dynamic>? ?? {};
+        return structBuilder != null ? structBuilder(data) : null;
+        
 
       default:
         return null;

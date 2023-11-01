@@ -141,7 +141,7 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                                       setState(() {
                                         _model.filteredBookList = _model
                                             .myLibrary
-                                            .where((book) => book.bookName
+                                            .where((book) => book.title
                                                 .toLowerCase()
                                                 .contains(value.toLowerCase()))
                                             .toList();
@@ -292,20 +292,21 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                         for (var libraryBook in _model.filteredBookList)
                           InkWell(
                             onTap: () => context.pushNamed('bookDetailScreen',
-                                queryParameters: {
-                                  'isbn': libraryBook.isbn.toString(),
-                                  'bookName': libraryBook.bookName,
-                                  'bookImage': libraryBook.bookImage,
-                                  'bookAuthor': libraryBook.bookAuthor,
-                                  'bookCategory': libraryBook.bookCategory,
-                                  'bookSummery': libraryBook.bookSummery,
-                                  'bookPublisher': libraryBook.bookPublisher,
-                                  'inMyLibrary': 'false',
-                                }),
+                                // queryParameters: {
+                                //   'isbn': libraryBook.isbn.toString(),
+                                //   'bookName': libraryBook.bookName,
+                                //   'bookImage': libraryBook.bookImage,
+                                //   'bookAuthor': libraryBook.bookAuthor,
+                                //   'bookCategory': libraryBook.bookCategory,
+                                //   'bookSummery': libraryBook.bookSummery,
+                                //   'bookPublisher': libraryBook.bookPublisher,
+                                //   'inMyLibrary': 'false',
+                                // },
+                                ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
-                                '${libraryBook.bookImage}',
+                                '${libraryBook.cover}',
                                 width: 300.0,
                                 height: 200.0,
                                 fit: BoxFit.cover,
