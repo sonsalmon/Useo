@@ -29,6 +29,7 @@ class SignUpScreenModel extends FlutterFlowModel {
     if (value.length < 6) {
       return '비밀번호는 6자 이상으로 설정해주세요.';
     }
+    return null;
   };
   // State field(s) for Password widget.
   TextEditingController? passwordController2;
