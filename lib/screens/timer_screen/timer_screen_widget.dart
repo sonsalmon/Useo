@@ -67,7 +67,8 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       // start timer when page load
-      _model.timerController.onExecute.add(StopWatchExecute.start);
+      // _model.timerController.onExecute.add(StopWatchExecute.start);
+      _model.timerController.onStartTimer();
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
@@ -223,8 +224,9 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                             size: 30.0,
                           ),
                           onPressed: () async {
-                            _model.timerController.onExecute
-                                .add(StopWatchExecute.stop);
+                            // _model.timerController.onExecute
+                            //     .add(StopWatchExecute.stop);
+                            _model.timerController.onStartTimer();
                             setState(() {
                               _model.isReading = false;
                             });
@@ -285,8 +287,9 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                                 size: 50.0,
                               ),
                               onPressed: () async {
-                                _model.timerController.onExecute
-                                    .add(StopWatchExecute.start);
+                                // _model.timerController.onExecute
+                                //     .add(StopWatchExecute.start);
+                                _model.timerController.onStartTimer();
                                 setState(() {
                                   _model.isReading = true;
                                 });
