@@ -32,7 +32,6 @@ class FinishReadingScreen1Widget extends StatefulWidget {
 class _FinishReadingScreen1WidgetState
     extends State<FinishReadingScreen1Widget> {
   late FinishReadingScreen1Model _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -92,25 +91,25 @@ class _FinishReadingScreen1WidgetState
               Align(
                 alignment: AlignmentDirectional(-1.0, 0.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 6.0, 0.0, 0.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.sizeOf(context).width * 0.05),
                   child: Text(
                     '독서기록 1/2',
                     style: FlutterFlowTheme.of(context).labelMedium,
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 6.0, 16.0, 0.0),
-                child: LinearPercentIndicator(
-                  percent: 0.5,
-                  width: MediaQuery.sizeOf(context).width * 0.915,
-                  lineHeight: 12.0,
-                  animation: true,
-                  progressColor: FlutterFlowTheme.of(context).primary,
-                  backgroundColor: FlutterFlowTheme.of(context).alternate,
-                  barRadius: Radius.circular(24.0),
-                  padding: EdgeInsets.zero,
-                ),
+              LinearPercentIndicator(
+                percent: 0.5,
+                // width: MediaQuery.sizeOf(context).width * 0.9,
+                lineHeight: 12.0,
+                animation: true,
+                progressColor: FlutterFlowTheme.of(context).primary,
+                backgroundColor: FlutterFlowTheme.of(context).alternate,
+                barRadius: Radius.circular(24.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.sizeOf(context).width * 0.05),
+                alignment: MainAxisAlignment.center,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,

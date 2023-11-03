@@ -67,7 +67,7 @@ class User extends StatelessWidget {
                       ),
                 ),
                 Text(
-                  '님, 어서오세요',
+                  '님',
                   style: FlutterFlowTheme.of(context).displaySmall.override(
                         fontFamily: 'Outfit',
                         fontSize: 32.0,
