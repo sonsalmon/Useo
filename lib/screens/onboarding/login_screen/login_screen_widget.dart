@@ -264,8 +264,8 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
-                              final loginUrl = Uri.parse(
-                                  baseUrl + 'users/login/');
+                              final loginUrl =
+                                  Uri.parse(baseUrl + 'users/login/');
                               http.Response response =
                                   await http.post(loginUrl, body: {
                                 'username': _model.userNameController.text,
@@ -282,7 +282,14 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                                 });
                                 context.goNamed('HomeScreen');
                               } else if (response.statusCode == 400) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('아이디 또는 비밀번호가 일치하지 않습니다.'),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
                                 print('아이디 또는 비밀번호가 일치하지 않습니다.');
+                                print(_model.formKey.currentState!.validate());
                               }
                             },
                             text: '로그인',
