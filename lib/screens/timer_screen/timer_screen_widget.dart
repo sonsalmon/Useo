@@ -226,7 +226,7 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
                           onPressed: () async {
                             // _model.timerController.onExecute
                             //     .add(StopWatchExecute.stop);
-                            _model.timerController.onStartTimer();
+                            _model.timerController.onStopTimer();
                             setState(() {
                               _model.isReading = false;
                             });
