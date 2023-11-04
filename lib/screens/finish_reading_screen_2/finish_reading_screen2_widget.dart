@@ -97,18 +97,15 @@ class _FinishReadingScreen2WidgetState
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 6.0, 16.0, 0.0),
-                child: LinearPercentIndicator(
-                  percent: 1.0,
-                  width: MediaQuery.sizeOf(context).width * 0.915,
-                  lineHeight: 12.0,
-                  animation: true,
-                  progressColor: FlutterFlowTheme.of(context).primary,
-                  backgroundColor: FlutterFlowTheme.of(context).alternate,
-                  barRadius: Radius.circular(24.0),
-                  padding: EdgeInsets.zero,
-                ),
+              LinearPercentIndicator(
+                percent: 1.0,
+                lineHeight: 12.0,
+                animation: true,
+                progressColor: FlutterFlowTheme.of(context).primary,
+                backgroundColor: FlutterFlowTheme.of(context).alternate,
+                barRadius: Radius.circular(24.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.sizeOf(context).width * 0.05),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -447,6 +444,17 @@ class _FinishReadingScreen2WidgetState
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
+                            // 독서 기록 저장 API call
+                            /*
+                            user, book_isbn, duration, reading_state, reading_progress 전송
+                            if reading_relation is exist:
+                              독서 상태 업데이트,
+                              노트 리스트 생성
+                            else //서재에 없는 새로운 책
+                              독서 관계 생성
+                              노트 리스트 생성
+                            */
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -465,17 +473,18 @@ class _FinishReadingScreen2WidgetState
                               ),
                             );
 
-                            context.pushNamed(
-                              'HomeScreen',
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType:
-                                      PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 200),
-                                ),
-                              },
-                            );
+                            print(FFAppState().mostRecentReadBook);
+                            // context.pushNamed(
+                            //   'HomeScreen',
+                            //   extra: <String, dynamic>{
+                            //     kTransitionInfoKey: TransitionInfo(
+                            //       hasTransition: true,
+                            //       transitionType:
+                            //           PageTransitionType.bottomToTop,
+                            //       duration: Duration(milliseconds: 200),
+                            //     ),
+                            //   },
+                            // );
                           },
                           text: '독서 기록 저장',
                           options: FFButtonOptions(

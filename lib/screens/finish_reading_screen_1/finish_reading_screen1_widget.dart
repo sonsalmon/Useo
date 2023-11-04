@@ -165,7 +165,12 @@ class _FinishReadingScreen1WidgetState
                               ),
                             );
                           },
-                        ).then((value) => setState(() {}));
+                        ).then((value) => setState(() {
+                              if (value == null) return;
+                              print(value);
+                              _model.currentBook = value as BookStruct;
+                              print(_model.currentBook);
+                            }));
                       },
                       text: '내 서재에서 찾기',
                       options: FFButtonOptions(

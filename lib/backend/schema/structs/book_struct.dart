@@ -10,14 +10,14 @@ class BookStruct extends BaseStruct {
     String? isbn,
     String? title,
     String? author,
-    String? categoryName,
+    // String? categoryName,
     String? description,
     String? cover,
     String? publisher,
   })  : _isbn = isbn,
         _title = title,
         _author = author,
-        _categoryName = categoryName,
+        // _categoryName = categoryName,
         _description = description,
         _cover = cover,
         _publisher = publisher;
@@ -65,13 +65,22 @@ class BookStruct extends BaseStruct {
   set publisher(String? val) => _publisher = val;
   bool hasPublisher() => _publisher != null;
 
-  static BookStruct fromMap(Map<String, dynamic> data) => BookStruct(
+  static BookStruct fromAladin(Map<String, dynamic> data) => BookStruct(
         isbn: data['isbn13'],
         title: data['title'] as String?,
         author: data['author'] as String?,
-        categoryName: data['categoryName'] as String?,
+        // categoryName: data['categoryName'] as String?,
         description: data['description'] as String?,
         cover: data['cover'] as String?,
+        publisher: data['publisher'] as String?,
+      );
+  static BookStruct fromMap(Map<String, dynamic> data) => BookStruct(
+        isbn: data['isbn'],
+        title: data['title'] as String?,
+        author: data['author'] as String?,
+        // categoryName: data['categoryName'] as String?,
+        description: data['description'] as String?,
+        cover: data['cover_image'] as String?,
         publisher: data['publisher'] as String?,
       );
 
@@ -79,12 +88,13 @@ class BookStruct extends BaseStruct {
       data is Map<String, dynamic> ? BookStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'isbn13': _isbn,
+        'isbn': _isbn,
         'title': _title,
         'author': _author,
         'categoryName': _categoryName,
         'description': _description,
         'cover': _cover,
+        'publisher': _publisher,
       }.withoutNulls;
 
   @override
@@ -136,11 +146,11 @@ class BookStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
-        categoryName: deserializeParam(
-          data['categoryName'],
-          ParamType.String,
-          false,
-        ),
+        // categoryName: deserializeParam(
+        //   data['categoryName'],
+        //   ParamType.String,
+        //   false,
+        // ),
         description: deserializeParam(
           data['description'],
           ParamType.String,
@@ -182,7 +192,7 @@ BookStruct createBookStruct({
   String? isbn,
   String? title,
   String? author,
-  String? categoryName,
+  // String? categoryName,
   String? description,
   String? cover,
   String? publisher,
@@ -191,7 +201,7 @@ BookStruct createBookStruct({
       isbn: isbn,
       title: title,
       author: author,
-      categoryName: categoryName,
+      // categoryName: categoryName,
       description: description,
       cover: cover,
       publisher: publisher,
