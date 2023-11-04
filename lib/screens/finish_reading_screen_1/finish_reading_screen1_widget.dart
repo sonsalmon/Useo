@@ -1,3 +1,4 @@
+import 'package:my_useo/api_service.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
 
 import '/components/search_librarysheet/search_librarysheet_widget.dart';
@@ -167,9 +168,8 @@ class _FinishReadingScreen1WidgetState
                           },
                         ).then((value) => setState(() {
                               if (value == null) return;
-                              print(value);
                               _model.currentBook = value as BookStruct;
-                              print(_model.currentBook);
+                              _model.isInLibrary = true;
                             }));
                       },
                       text: '내 서재에서 찾기',
@@ -223,9 +223,31 @@ class _FinishReadingScreen1WidgetState
                               .pushNamed('SearchBookScreen', queryParameters: {
                             'nowReading': 'true',
                           });
+
                           setState(() {
                             _model.currentBook = searchResultBook
                                 as BookStruct?; //명시적 type casting
+                            ApiService.getReadingRelation(
+                                    FFAppState().signupnickname,
+                                    _model.currentBook!.isbn)
+                                .then((book) {
+                              if (book != null) {
+                                _model.isInLibrary = true;
+                              } else {
+                                _model.isInLibrary = false;
+                              }
+                            });
+
+                            // try {
+                            //   // 알라딘 Api에서 가져온 책이 이미 서재에 있는지 확인.
+                            //   _model.isInLibrary = true;
+                            // } catch (e) {
+                            //   _model.isInLibrary = false;
+                            // }
+                            // _model.isInLibrary = ApiService.getReadingRelation(
+                            //         FFAppState().signupnickname,
+                            //         _model.currentBook.isbn) !=
+                            //     null;
                           });
                         },
                         child: Padding(
@@ -473,6 +495,8 @@ class _FinishReadingScreen1WidgetState
                                     ParamType.DateTime,
                                   ),
                                   'readingDuration': widget.readingDuration,
+                                  'isInsLibrary': serializeParam(
+                                      _model.isInLibrary, ParamType.bool),
                                 }.withoutNulls,
                                 extra: <String, dynamic>{
                                   kTransitionInfoKey: TransitionInfo(

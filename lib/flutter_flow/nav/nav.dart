@@ -75,6 +75,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             finishTime: params.getParam('finishTime', ParamType.DateTime),
             readingDuration:
                 params.getParam('readingDuration', ParamType.String),
+            isInLibrary: params.getParam('isInsLibrary', ParamType.bool),
             // currentBook: params.getParam('currentBook', ParamType.),
           ),
         ),

@@ -8,6 +8,7 @@ class FinishReadingScreen1Model extends FlutterFlowModel {
 
   BookStruct? currentBook;
   late List<BookStruct> currentReadingBookList = [];
+  bool isInLibrary = false; // 내서재에 있는 책
 
   ///  State fields for stateful widgets in this page.
 

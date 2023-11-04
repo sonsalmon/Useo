@@ -63,6 +63,8 @@ class HomeScreenWidget extends StatelessWidget {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     var profile = snapshot.data!;
+                                    FFAppState().signupnickname =
+                                        profile.nickname; //유저 닉네임 저장
                                     return User(
                                       scaffoldKey: scaffoldKey,
                                       nickname: profile.nickname,

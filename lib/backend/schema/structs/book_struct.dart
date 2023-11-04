@@ -91,9 +91,9 @@ class BookStruct extends BaseStruct {
         'isbn': _isbn,
         'title': _title,
         'author': _author,
-        'categoryName': _categoryName,
+        // 'categoryName': _categoryName,
         'description': _description,
-        'cover': _cover,
+        'cover_image': _cover,
         'publisher': _publisher,
       }.withoutNulls;
 
