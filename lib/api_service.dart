@@ -20,6 +20,8 @@ class ApiService {
 
   static const String books = 'books';
   static const String get_list = 'get_list';
+  static const String get_update_destroy = 'get_update_destroy';
+  static const String create = 'create';
 
   static final Map<String, String> http_headers = {
     'Authorization': 'Token ${FFAppState().loginToken}',
@@ -35,16 +37,11 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decodedData = json.decode(response.body);
-      print('decoded data : ${decodedData['item']}');
-
-      print(decodedData['item'].runtimeType);
-      print((decodedData['item'] as List).runtimeType);
       // 목록의 각 항목을 BookStruct로 변환
       final List<BookStruct> books = (decodedData['item'] as List)
           .map((bookJson) =>
               BookStruct.fromAladin(bookJson as Map<String, dynamic>))
           .toList();
-      print('books : ${books[0]}');
 
       return books;
     } else {
@@ -105,6 +102,83 @@ class ApiService {
     }
   }
 
-  static Future<void> createOrUpdateReadingRelation(
-      Map<String, dynamic> requestBody) async {}
-}
+  //책 상세 조회 api
+  static Future<BookStruct?> getReadingRelation(
+      String nickname, String isbn) async {
+    final url =
+        Uri.parse('$baseUrl/$books/$get_update_destroy/$nickname/$isbn/');
+    try {
+      http.Response response = await http.get(url, headers: http_headers);
+      if (response.statusCode == 200) {
+        final decodedData = utf8.decode(response.bodyBytes); //응답을 utf-8형식으로 디코딩
+        BookStruct model = BookStruct.fromMap(json.decode(decodedData));
+        return model;
+      }
+    } catch (e) {
+      print('책을 불러오는 데 실패했습니다:$e');
+      return null;
+    }
+    return null;
+  }
+  //책 생성api
+
+  static void createReadingRelation({
+    required BookStruct bookData,
+    required String readingState,
+    required String readingDuration, //String 형
+    required double readingProgress,
+    // required DateTime add_date,
+    Double? rate,
+  }) async {
+    final url = Uri.parse('$baseUrl/$books/$create/');
+    final body = json.encode({
+      'book_data': bookData.toMap(),
+      'reading_state': readingState,
+      'reading_duration': readingDuration,
+      'rate': rate,
+    });
+    try {
+      print('lets try');
+      http.Response response = await http.post(
+        url,
+        headers: http_headers,
+        body: body,
+      );
+      if (response.statusCode == 201) {
+      }
+    } catch (e) {
+      print('Error occurred while sending post request: $e');
+      // return null;
+    }
+  }
+
+  static void updateReadingRelation({
+    required BookStruct bookData, //read_only
+    required String readingState,
+    required String readingDuration, //String 형
+    required double readingProgress,
+    // required DateTime add_date,
+    Double? rate,
+  }) async {
+    final url = Uri.parse(
+        '$baseUrl/$books/$get_update_destroy/${FFAppState().signupnickname}/${bookData.isbn}/');
+    final body = json.encode({
+      'book_data': bookData.toMap(),
+      'reading_state': readingState,
+      'reading_duration': readingDuration,
+      'rate': rate,
+    });
+    try {
+      http.Response response = await http.patch(
+        url,
+        headers: http_headers,
+        body: body,
+      );
+      if (response.statusCode == 201) {
+      }
+    } catch (e) {
+      print('Error occurred while sending post request: $e');
+      // return null;
+    }
+  }
+
