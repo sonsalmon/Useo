@@ -340,6 +340,7 @@ class _FinishReadingScreen1WidgetState
                   child: Text(
                     '${_model.currentBook!.title}',
                     style: FlutterFlowTheme.of(context).bodyLarge,
+                    softWrap: true,
                   ),
                 ),
               if (_model.currentBook != null)
@@ -347,7 +348,7 @@ class _FinishReadingScreen1WidgetState
                   padding:
                       EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                   child: Container(
-                    width: double.infinity,
+                    width: MediaQuery.sizeOf(context).width * 1,
                     height: 180.0,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).primaryBackground,
@@ -360,51 +361,60 @@ class _FinishReadingScreen1WidgetState
                       ],
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
+                    child: Flex(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      direction: Axis.horizontal,
+                      // mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              10.0, 10.0, 10.0, 10.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              '${_model.currentBook!.cover}',
-                              width: 120.0,
-                              height: 160.0,
-                              fit: BoxFit.cover,
+                        Flexible(
+                          flex: 4,
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                10.0, 10.0, 10.0, 10.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                '${_model.currentBook!.cover}',
+                                // width: 120.0,
+                                // height: 160.0,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              4.0, 4.0, 4.0, 4.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 4.0, 0.0, 4.0),
-                                child: Text(
-                                  '${_model.currentBook!.title}',
-                                  style: FlutterFlowTheme.of(context).bodySmall,
+                        Flexible(
+                          flex: 6,
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                4.0, 4.0, 4.0, 4.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 4.0, 0.0, 4.0),
+                                  child: Text(
+                                    '${_model.currentBook!.title}',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodySmall,
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 4.0, 0.0, 4.0),
-                                child: Text(
-                                  '${_model.currentBook!.author}',
-                                  style: FlutterFlowTheme.of(context)
-                                      .labelSmall
-                                      .override(
-                                        fontFamily: 'Readex Pro',
-                                        fontSize: 10.0,
-                                      ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 4.0, 0.0, 4.0),
+                                  child: Text(
+                                    '${_model.currentBook!.author}',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          fontFamily: 'Readex Pro',
+                                          fontSize: 10.0,
+                                        ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
