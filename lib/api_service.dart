@@ -144,8 +144,7 @@ class ApiService {
         headers: http_headers,
         body: body,
       );
-      if (response.statusCode == 201) {
-      }
+      if (response.statusCode == 201) {}
     } catch (e) {
       print('Error occurred while sending post request: $e');
       // return null;
@@ -174,11 +173,10 @@ class ApiService {
         headers: http_headers,
         body: body,
       );
-      if (response.statusCode == 201) {
-      }
+      if (response.statusCode == 201) {}
     } catch (e) {
       print('Error occurred while sending post request: $e');
       // return null;
     }
   }
-
+}
