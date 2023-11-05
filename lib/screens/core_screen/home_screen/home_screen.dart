@@ -244,6 +244,9 @@ class HomeScreenWidget extends StatelessWidget {
                                       onPressed: () async {
                                         context.pushNamed(
                                           'searchBookScreen',
+                                          queryParameters: {
+                                            'nowReading': 'false',
+                                          },
                                         );
                                       },
                                     ),

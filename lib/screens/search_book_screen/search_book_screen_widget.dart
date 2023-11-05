@@ -91,7 +91,6 @@ class _SearchBookWidgetState extends State<SearchBookScreenWidget>
 
                   onFieldSubmitted: (value) {
                     if (value.isEmpty) return;
-                    print('onfieldSubmitted called');
                     // _model.searchResultList = [];
                     _model.searchResultList = ApiService.getBookQuery(value);
                     widget.startQuerying = true;
@@ -174,8 +173,9 @@ class _SearchBookWidgetState extends State<SearchBookScreenWidget>
                     future: _model.searchResultList,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        print(snapshot.data);
                         widget.startQuerying = false;
+                        print(snapshot.data);
+                        print(snapshot.data.runtimeType);
                         return BookList(
                             searchResultList: snapshot.data!, widget: widget);
                       } else if (widget.startQuerying) {
@@ -209,7 +209,6 @@ class BookList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(searchResultList);
     return ListView(
       padding: EdgeInsets.zero,
       scrollDirection: Axis.vertical,
@@ -228,20 +227,18 @@ class BookList extends StatelessWidget {
                     : context.pushReplacementNamed(
                         'bookDetailScreen',
                         queryParameters: {
-                          //     'isbn':
-                          //         searchResultBook.isbn.toString(),
-                          //     'bookName': searchResultBook.title,
-                          //     'bookImage':
-                          //         searchResultBook.bookImage,
-                          //     'bookAuthor':
-                          //         searchResultBook.bookAuthor,
-                          //     'bookCategory':
-                          //         searchResultBook.bookCategory,
-                          //     'bookSummery':
-                          //         searchResultBook.bookSummery,
-                          //     'bookPublisher':
-                          //         searchResultBook.bookPublisher,
-                          'book': searchResultBook,
+                              'isbn':
+                                  searchResultBook.isbn.toString(),
+                              'bookName': searchResultBook.title,
+                              'bookImage':
+                                  searchResultBook.cover,
+                              'bookAuthor':
+                                  searchResultBook.author,
+                              'bookSummery':
+                                  searchResultBook.description,
+                              'bookPublisher':
+                                  searchResultBook.publisher,
+                          // 'book': searchResultBook,
                           'inMyLibrary': false.toString(),
                         },
                       ); //DB에 책 등록
