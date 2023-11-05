@@ -111,10 +111,6 @@ class BookStruct extends BaseStruct {
           _author,
           ParamType.String,
         ),
-        'categoryName': serializeParam(
-          _categoryName,
-          ParamType.String,
-        ),
         'description': serializeParam(
           _description,
           ParamType.String,
