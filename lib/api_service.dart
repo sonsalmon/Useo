@@ -23,6 +23,9 @@ class ApiService {
   static const String get_update_destroy = 'get_update_destroy';
   static const String create = 'create';
 
+  static const String notes = 'notes';
+  static const String list = 'list';
+
   static final Map<String, String> http_headers = {
     'Authorization': 'Token ${FFAppState().loginToken}',
     'Content-Type': 'application/json', //보내는 형식
@@ -88,7 +91,7 @@ class ApiService {
   static Future<List<Map<String, dynamic>>> getUserBookList(
       {String? nickname}) async {
     final url = (nickname != null && nickname.isNotEmpty)
-        ? Uri.parse('$baseUrl/$books/$get_list/ ?nickname=$nickname')
+        ? Uri.parse('$baseUrl/$books/$get_list/?nickname=$nickname')
         : Uri.parse('$baseUrl/$books/$get_list/');
     http.Response response = await http.get(url, headers: http_headers);
     if (response.statusCode == 200) {
@@ -103,22 +106,53 @@ class ApiService {
   }
 
   //책 상세 조회 api
-  static Future<BookStruct?> getReadingRelation(
-      String nickname, String isbn) async {
+  static Future<Map<String, dynamic>?> getReadingRelation(
+      // static Future<BookStruct?> getReadingRelation(
+      String nickname,
+      String isbn) async {
     final url =
         Uri.parse('$baseUrl/$books/$get_update_destroy/$nickname/$isbn/');
     try {
       http.Response response = await http.get(url, headers: http_headers);
       if (response.statusCode == 200) {
         final decodedData = utf8.decode(response.bodyBytes); //응답을 utf-8형식으로 디코딩
-        BookStruct model = BookStruct.fromMap(json.decode(decodedData));
-        return model;
+        // BookStruct model = BookStruct.fromMap(json.decode(decodedData));
+        // return model;
+        return json.decode(decodedData);
+      } else if (response.statusCode == 404) {
+        return null;
       }
     } catch (e) {
+      throw Exception('책을 불러오는 데 실패했습니다.');
       print('책을 불러오는 데 실패했습니다:$e');
-      return null;
+      // return null;
     }
     return null;
+    // return null;
+  }
+
+  /* 독서관계 삭제 */
+  static Future<bool> deleteReadingRelation(
+      String nickname, String isbn) async {
+    final url =
+        Uri.parse('$baseUrl/$books/$get_update_destroy/$nickname/$isbn/');
+    try {
+      http.Response response = await http.delete(url, headers: http_headers);
+      // if (response.statusCode == 200) {
+      // BookStruct model = BookStruct.fromMap(json.decode(decodedData));
+      // }
+      if (response.statusCode == 204) {
+        print('독서관계 삭제');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw Exception('책을 불러오는 데 실패했습니다.');
+      print('책을 불러오는 데 실패했습니다:$e');
+      // return null;
+    }
+    // return null;
   }
   //책 생성api
 
@@ -146,28 +180,32 @@ class ApiService {
       );
       if (response.statusCode == 201) {}
     } catch (e) {
-      print('Error occurred while sending post request: $e');
+      print('Error occurred while sending delete request: $e');
       // return null;
     }
   }
 
   static void updateReadingRelation({
     required BookStruct bookData, //read_only
-    required String readingState,
-    required String readingDuration, //String 형
-    required double readingProgress,
+    String? readingState,
+    String? readingDuration, //String 형
+    double? readingProgress,
     // required DateTime add_date,
-    Double? rate,
+    double? rate,
   }) async {
     final url = Uri.parse(
         '$baseUrl/$books/$get_update_destroy/${FFAppState().signupnickname}/${bookData.isbn}/');
-    final body = json.encode({
-      'book_data': bookData.toMap(),
-      'reading_state': readingState,
-      'reading_duration': readingDuration,
-      'rate': rate,
-    });
+    final Map<String, dynamic> bodyMap = {
+      // 'book_data'는 read_only라고 가정하고 여기에 포함하지 않음.
+      if (readingState != null) 'reading_state': readingState,
+      if (readingDuration != null) 'reading_duration': readingDuration,
+      if (rate != null) 'rate': rate,
+      // readingProgress는 double이므로, null이 아닐 때만 추가
+      if (readingProgress != null) 'reading_progress': readingProgress,
+    };
+    final body = json.encode(bodyMap);
     try {
+      print(body);
       http.Response response = await http.patch(
         url,
         headers: http_headers,
@@ -177,6 +215,29 @@ class ApiService {
     } catch (e) {
       print('Error occurred while sending post request: $e');
       // return null;
+    }
+  }
+
+  /* 노트 리스트 조회 */
+  static Future<List<Map<String, dynamic>>> getNoteList(
+      {required String isbn, required String nickname}) async {
+    // final String nickname;
+    // final String isbn;
+
+    final url = (nickname.isNotEmpty)
+        ? Uri.parse('$baseUrl/$notes/$list/?nickname=$nickname&&isbn=$isbn')
+        : Uri.parse(
+            '$baseUrl/$list/$list/?nickname=${FFAppState().signupnickname}&&isbn=$isbn');
+    http.Response response = await http.get(url, headers: http_headers);
+    if (response.statusCode == 200) {
+      final decodedData = utf8.decode(response.bodyBytes);
+
+      List<Map<String, dynamic>> listOfMaps =
+          json.decode(decodedData).cast<Map<String, dynamic>>();
+      print('getbooklist api 결과 : $listOfMaps');
+      return listOfMaps;
+    } else {
+      throw Exception('책을 불러오는 데 실패했습니다');
     }
   }
 }

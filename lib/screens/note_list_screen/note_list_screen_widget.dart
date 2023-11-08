@@ -132,7 +132,7 @@ class _NoteListScreenWidgetState extends State<NoteListScreenWidget> {
                                       setState(() {
                                         _model.filteredNoteList = _model
                                             .noteList
-                                            .where((note) => note.noteText
+                                            .where((note) => note.content
                                                 .toLowerCase()
                                                 .contains(value.toLowerCase()))
                                             .toList();
@@ -277,7 +277,7 @@ class _NoteListScreenWidgetState extends State<NoteListScreenWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 4.0, 8.0, 0.0),
                                     child: Text(
-                                      '${note.noteText}',
+                                      '${note.content}',
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .labelMedium,

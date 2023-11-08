@@ -17,8 +17,8 @@ class LibraryScreenModel extends FlutterFlowModel {
   String? searchKeyword = '';
 
   bool isSearching = false;
-  List<BookStruct> myLibrary = []; //api call 불러와야 함.
-  List<BookStruct> filteredBookList = []; //api call 불러와야 함.
+  Future<List<Map<String, dynamic>>>? myLibraryList; //api call 불러와야 함.
+  List<Map<String, dynamic>> filteredBookList = []; //api call 불러와야 함.
 
   ///  State fields for stateful widgets in this page.
 
@@ -35,9 +35,18 @@ class LibraryScreenModel extends FlutterFlowModel {
   void sortBookList() {
     switch (sortOption) {
       case 'title':
-        filteredBookList.sort((a, b) => a.title.compareTo(b.title));
+        filteredBookList.sort((a, b) =>
+            a['book_data']['title'].compareTo(b['book_data']['title']));
       case 'title_reverse':
-        filteredBookList.sort((a, b) => b.title.compareTo(a.title));
+        filteredBookList.sort((a, b) =>
+            b['book_data']['title'].compareTo(a['book_data']['title']));
+    }
+  }
+
+  Future<void> loadLibraryList() async {
+    // myLibraryList가 null이 아니라면, 결과를 기다림
+    if (myLibraryList != null) {
+      filteredBookList = await myLibraryList!;
     }
   }
 

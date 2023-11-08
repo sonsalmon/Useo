@@ -227,15 +227,17 @@ class _FinishReadingScreen1WidgetState
                           setState(() {
                             _model.currentBook = searchResultBook
                                 as BookStruct?; //명시적 type casting
+                            print('finish reading1');
+                            print(
+                                '${_model.currentBook}, ${FFAppState().signupnickname}');
                             ApiService.getReadingRelation(
                                     FFAppState().signupnickname,
                                     _model.currentBook!.isbn)
                                 .then((book) {
-                              if (book != null) {
-                                _model.isInLibrary = true;
-                              } else {
-                                _model.isInLibrary = false;
-                              }
+                              print(book);
+                              //get에 성공하면 서재에 있음, null이 리턴되면 없음
+                              _model.isInLibrary =
+                                  (book != null) ? true : false;
                             });
 
                             // try {
