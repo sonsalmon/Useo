@@ -10,9 +10,9 @@ class FinishReadingScreen2Model extends FlutterFlowModel {
 
   final unfocusNode = FocusNode();
   // Stores action output result for [Bottom Sheet - selectReadingProgress] action in Container widget.
-  double? readingProgress;
+  double readingProgress = 0;
   // Stores action output result for [Bottom Sheet - selectReadingState] action in Container widget.
-  String? readingStateKey;
+  String readingStateKey = 'reading';
 
   /// Initialization and disposal methods.
 
