@@ -1,3 +1,5 @@
+import 'package:flutter/scheduler.dart';
+import 'package:my_useo/api_service.dart';
 import 'package:my_useo/components/sort_sheet_widget.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -26,6 +28,14 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
     _model = createModel(context, () => LibraryScreenModel());
 
     _model.textController ??= TextEditingController();
+    _model.myLibraryList = ApiService.getUserBookList();
+    _model.myLibraryList?.then((list) => {
+          setState(() {
+            //flitered 리스트를 서재 전체 도서로 초기화
+            _model.filteredBookList = list;
+            print(_model.filteredBookList);
+          })
+        });
   }
 
   @override
@@ -111,16 +121,17 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                                       _model.isSearching = true;
                                     });
                                   },
-                                  onChanged: (value) {
+                                  onChanged: (value) async {
                                     print(_model.filteredBookList);
                                     if (_model.isSearching) {
-                                      setState(() {
-                                        _model.filteredBookList = _model
-                                            .myLibrary
-                                            .where((book) => book.title
+                                      _model.myLibraryList?.then((list) {
+                                        _model.filteredBookList = list
+                                            .where((book) => book['book_data']
+                                                    ['title']
                                                 .toLowerCase()
                                                 .contains(value.toLowerCase()))
                                             .toList();
+                                        setState(() {});
                                       });
                                     }
                                   },
@@ -179,14 +190,13 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  setState(() {
-                                    _model.isSearching = !_model.isSearching;
-                                    if (!_model.isSearching) {
-                                      _model.textController?.clear();
-                                      _model.filteredBookList =
-                                          _model.myLibrary;
-                                    }
-                                  });
+                                  _model.isSearching = !_model.isSearching;
+                                  if (!_model.isSearching) {
+                                    _model.textController?.clear();
+                                    _model.filteredBookList =
+                                        await _model.myLibraryList!;
+                                  }
+                                  setState(() {});
                                 },
                                 child: Icon(_model.isSearching
                                     ? Icons.cancel
@@ -255,42 +265,34 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
-                    child: GridView(
-                      padding: EdgeInsets.zero,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 0.68,
-                      ),
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        for (var libraryBook in _model.filteredBookList)
-                          InkWell(
-                            onTap: () => context.pushNamed(
-                              'bookDetailScreen',
-                              // queryParameters: {
-                              //   'isbn': libraryBook.isbn.toString(),
-                              //   'bookName': libraryBook.bookName,
-                              //   'bookImage': libraryBook.bookImage,
-                              //   'bookAuthor': libraryBook.bookAuthor,
-                              //   'bookCategory': libraryBook.bookCategory,
-                              //   'bookSummery': libraryBook.bookSummery,
-                              //   'bookPublisher': libraryBook.bookPublisher,
-                              //   'inMyLibrary': 'true',
-                              // },
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                '${libraryBook.cover}',
-                                width: 300.0,
-                                height: 200.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                      ],
+                    // child: BookList(model: _model),
+                    child: FutureBuilder(
+                      future: _model.myLibraryList,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          print('library 스크린 snapshot hasData');
+                          // _model.loadLibraryList();
+                          return BookList(
+                            widget: widget,
+                            resultList: _model.filteredBookList,
+                            //BookList에서 호출하는 콜백함수
+                            onItemChanged: () {
+                              //책 리스트 다시 로드
+                              _model.myLibraryList = ApiService.getUserBookList(
+                                  nickname: FFAppState().signupnickname);
+                              _model.myLibraryList?.then((list) {
+                                setState(() {
+                                  _model.filteredBookList = list;
+                                });
+                              });
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -299,6 +301,56 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class BookList extends StatelessWidget {
+  final Function() onItemChanged; //콜백함수
+  const BookList({
+    super.key,
+    required this.widget,
+    required this.resultList,
+    required this.onItemChanged,
+  });
+
+  final LibraryScreenWidget widget;
+  final List<Map<String, dynamic>> resultList;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView(
+      padding: EdgeInsets.zero,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 10.0,
+        mainAxisSpacing: 10.0,
+        childAspectRatio: 0.68,
+      ),
+      scrollDirection: Axis.vertical,
+      children: [
+        for (var libraryBook in resultList)
+          InkWell(
+            onTap: () {
+              context.pushNamed(
+                'bookDetailScreen',
+                queryParameters: {
+                  'isbn': libraryBook['book_data']['isbn'].toString(),
+                  'inMyLibrary': 'true',
+                },
+              ).then((_) => onItemChanged()); //책 삭제했을 경우 도서 리스트 업데이트 되도록
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                '${libraryBook['book_data']['cover_image']}',
+                width: 300.0,
+                height: 200.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
