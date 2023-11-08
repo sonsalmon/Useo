@@ -77,12 +77,7 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
           // if (snapshot.hasData) {
           if (snapshot.hasData) {
             final readingRelationData = snapshot.data![0];
-            print('book detail screen readingRelation data');
-            print('$readingRelationData');
-            print(snapshot.data![1]);
-            final noteListData = snapshot.data![1].map<NoteStruct>((noteMap) {
-              return NoteStruct.fromMap(noteMap);
-            }).toList();
+            final noteListData = snapshot.data![1];
             _model = BookDetailScreenModel(
               noteList: noteListData,
               book: BookStruct.fromMap(

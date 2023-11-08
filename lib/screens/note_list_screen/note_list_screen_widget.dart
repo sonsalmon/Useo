@@ -1,3 +1,5 @@
+import 'package:my_useo/api_service.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -215,95 +217,115 @@ class _NoteListScreenWidgetState extends State<NoteListScreenWidget> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 52.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      for (var note in _model.filteredNoteList)
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 8.0),
-                          child: Container(
-                            width: double.infinity,
-                            // height: 150.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 3.0,
-                                  color: Color(0x411D2429),
-                                  offset: Offset(0.0, 1.0),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 16.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 8.0, 4.0, 8.0),
-                                          child: Text(
-                                            '책 제목',
-                                            textAlign: TextAlign.end,
-                                            style: FlutterFlowTheme.of(context)
-                                                .titleLarge,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right_rounded,
-                                          color: Color(0xFF57636C),
-                                          size: 24.0,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 4.0, 8.0, 0.0),
-                                    child: Text(
-                                      '${note.content}',
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelMedium,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 4.0, 8.0, 0.0),
-                                    child: Text(
-                                      '날짜',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelSmall,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
+                FutureBuilder(
+                    future: ApiService.getNoteList(
+                        nickname: FFAppState().signupnickname),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        _model.noteList = snapshot.data!;
+                        _model.filteredNoteList = _model.noteList;
+
+                        return NoteList(model: _model);
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class NoteList extends StatelessWidget {
+  const NoteList({
+    super.key,
+    required NoteListScreenModel model,
+  }) : _model = model;
+
+  final NoteListScreenModel _model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 52.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          for (var note in _model.filteredNoteList)
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 8.0),
+              child: Container(
+                width: double.infinity,
+                // height: 150.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3.0,
+                      color: Color(0x411D2429),
+                      offset: Offset(0.0, 1.0),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 8.0, 4.0, 8.0),
+                              child: Text(
+                                '책 제목',
+                                textAlign: TextAlign.end,
+                                style: FlutterFlowTheme.of(context).titleLarge,
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              color: Color(0xFF57636C),
+                              size: 24.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 8.0, 0.0),
+                        child: Text(
+                          '${note.content}',
+                          textAlign: TextAlign.start,
+                          style: FlutterFlowTheme.of(context).labelMedium,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 8.0, 0.0),
+                        child: Text(
+                          '${DateFormat('yyyy년 MM월 dd일 HH:mm').format(note.addDate!)}',
+                          style: FlutterFlowTheme.of(context).labelSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

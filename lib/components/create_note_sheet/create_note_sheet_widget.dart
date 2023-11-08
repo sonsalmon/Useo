@@ -1,3 +1,5 @@
+import 'package:my_useo/backend/schema/structs/index.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -188,7 +190,9 @@ class _CreateNoteSheetWidgetState extends State<CreateNoteSheetWidget> {
                           16.0, 16.0, 16.0, 44.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if (_model.readingNoteController.text.isNotEmpty)
+                          if (_model.readingNoteController.text.isNotEmpty) {
+                            FFAppState()
+                                .addNote(_model.readingNoteController.text);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -206,6 +210,8 @@ class _CreateNoteSheetWidgetState extends State<CreateNoteSheetWidget> {
                                     FlutterFlowTheme.of(context).success,
                               ),
                             );
+                          }
+
                           context.safePop();
                         },
                         text: '저장',

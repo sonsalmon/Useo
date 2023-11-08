@@ -33,7 +33,6 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
           setState(() {
             //flitered 리스트를 서재 전체 도서로 초기화
             _model.filteredBookList = list;
-            print(_model.filteredBookList);
           })
         });
   }
@@ -51,7 +50,6 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
 
     return GestureDetector(
       onTap: () {
-        print('바깥 터치 -> unfocus');
         FocusScope.of(context).requestFocus(_model.unfocusNode);
         setState(() {
           _model.isSearching = false;
@@ -122,7 +120,6 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                                     });
                                   },
                                   onChanged: (value) async {
-                                    print(_model.filteredBookList);
                                     if (_model.isSearching) {
                                       _model.myLibraryList?.then((list) {
                                         _model.filteredBookList = list
@@ -270,7 +267,6 @@ class _LibraryScreenWidgetState extends State<LibraryScreenWidget> {
                       future: _model.myLibraryList,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          print('library 스크린 snapshot hasData');
                           // _model.loadLibraryList();
                           return BookList(
                             widget: widget,

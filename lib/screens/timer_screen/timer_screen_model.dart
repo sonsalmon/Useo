@@ -1,3 +1,5 @@
+import 'package:my_useo/backend/schema/structs/index.dart';
+
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class TimerScreenModel extends FlutterFlowModel {
   bool isReading = true;
 
   ///  State fields for stateful widgets in this page.
+  List<NoteStruct> noteList = [];
 
   final unfocusNode = FocusNode();
   // State field(s) for Timer widget.

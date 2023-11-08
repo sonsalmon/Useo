@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:my_useo/backend/schema/structs/index.dart';
+import 'package:my_useo/screens/note_list_screen/note_list_screen_widget.dart';
 
 import 'app_state.dart';
 import 'screens/core_screen/home_screen/user_model.dart';
@@ -124,7 +125,6 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('책을 불러오는 데 실패했습니다.');
-      print('책을 불러오는 데 실패했습니다:$e');
       // return null;
     }
     return null;
@@ -142,14 +142,12 @@ class ApiService {
       // BookStruct model = BookStruct.fromMap(json.decode(decodedData));
       // }
       if (response.statusCode == 204) {
-        print('독서관계 삭제');
         return true;
       } else {
         return false;
       }
     } catch (e) {
       throw Exception('책을 불러오는 데 실패했습니다.');
-      print('책을 불러오는 데 실패했습니다:$e');
       // return null;
     }
     // return null;
@@ -172,7 +170,6 @@ class ApiService {
       'rate': rate,
     });
     try {
-      print('lets try');
       http.Response response = await http.post(
         url,
         headers: http_headers,
@@ -205,7 +202,6 @@ class ApiService {
     };
     final body = json.encode(bodyMap);
     try {
-      print(body);
       http.Response response = await http.patch(
         url,
         headers: http_headers,
@@ -219,25 +215,53 @@ class ApiService {
   }
 
   /* 노트 리스트 조회 */
-  static Future<List<Map<String, dynamic>>> getNoteList(
-      {required String isbn, required String nickname}) async {
+  static Future<List<NoteStruct>> getNoteList(
+      {String? isbn, required String nickname}) async {
     // final String nickname;
     // final String isbn;
 
-    final url = (nickname.isNotEmpty)
-        ? Uri.parse('$baseUrl/$notes/$list/?nickname=$nickname&&isbn=$isbn')
+    final url = (isbn == null)
+        ? Uri.parse('$baseUrl/$notes/$list/?nickname=$nickname') // 유저의 모든 노트 조회
         : Uri.parse(
-            '$baseUrl/$list/$list/?nickname=${FFAppState().signupnickname}&&isbn=$isbn');
+            '$baseUrl/$notes/$list/?nickname=$nickname&&isbn=$isbn'); // 특정 도서의 노트 조회
     http.Response response = await http.get(url, headers: http_headers);
     if (response.statusCode == 200) {
-      final decodedData = utf8.decode(response.bodyBytes);
+      final decodedData = json.decode(utf8.decode(response.bodyBytes));
 
-      List<Map<String, dynamic>> listOfMaps =
-          json.decode(decodedData).cast<Map<String, dynamic>>();
-      print('getbooklist api 결과 : $listOfMaps');
-      return listOfMaps;
+      final List<NoteStruct> resultNotes = (decodedData as List)
+          .map((noteJson) =>
+              NoteStruct.fromMap(noteJson as Map<String, dynamic>))
+          .toList();
+      return resultNotes;
     } else {
-      throw Exception('책을 불러오는 데 실패했습니다');
+      throw Exception('노트를 불러오는 데 실패했습니다');
+    }
+  }
+
+  static void createNoteList({
+    required List<String> noteList,
+    required String isbn,
+  }) async {
+    final url = Uri.parse('$baseUrl/$notes/$list/');
+
+    final requestContent = noteList
+        .map((note) => {
+              'book_isbn': isbn,
+              'content': note,
+            })
+        .toList();
+
+    final body = json.encode(requestContent);
+    try {
+      http.Response response = await http.post(
+        url,
+        headers: http_headers,
+        body: body,
+      );
+      if (response.statusCode == 201) {}
+    } catch (e) {
+      print('Error occurred while sending delete request: $e');
+      // return null;
     }
   }
 }

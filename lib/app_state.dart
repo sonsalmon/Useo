@@ -65,6 +65,24 @@ class FFAppState extends ChangeNotifier {
   set loginToken(String _value) {
     _loginToken = _value;
   }
+
+  List<String> _notes = [];
+  List<String> get notes => List.unmodifiable(_notes); //수정 불가
+  set notes(List<String> value) {
+    _notes = value;
+  }
+
+  void addNote(String note) {
+    _notes.add(note);
+  }
+
+  void removeNote(String note) {
+    _notes.remove(note);
+  }
+
+  void flushNote() {
+    _notes = [];
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

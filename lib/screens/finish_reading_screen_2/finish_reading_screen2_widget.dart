@@ -302,7 +302,7 @@ class _FinishReadingScreen2WidgetState
                                     child: Text(
                                       valueOrDefault<String>(
                                         _model.readingProgress
-                                            ?.toInt()
+                                            .toInt()
                                             .toString(),
                                         '0',
                                       ),
@@ -462,19 +462,24 @@ class _FinishReadingScreen2WidgetState
                               //독서 상태 업데이트
                               ApiService.updateReadingRelation(
                                   bookData: FFAppState().mostRecentReadBook,
-                                  readingState: _model.readingStateKey!,
+                                  readingState: _model.readingStateKey,
                                   readingDuration: widget.readingDuration,
-                                  readingProgress: _model.readingProgress!);
+                                  readingProgress: _model.readingProgress);
                             } else {
                               ApiService.createReadingRelation(
                                   bookData: FFAppState().mostRecentReadBook,
-                                  readingState: _model.readingStateKey!,
+                                  readingState: _model.readingStateKey,
                                   readingDuration: widget.readingDuration,
-                                  readingProgress: _model.readingProgress!);
+                                  readingProgress: _model.readingProgress);
 
                               //독서 상태 생성
                             }
                             //노트 리스트 생성
+                            ApiService.createNoteList(
+                              noteList: FFAppState().notes,
+                              isbn: FFAppState().mostRecentReadBook.isbn,
+                            );
+                            FFAppState().flushNote();
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

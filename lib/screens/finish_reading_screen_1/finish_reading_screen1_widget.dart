@@ -224,33 +224,31 @@ class _FinishReadingScreen1WidgetState
                             'nowReading': 'true',
                           });
 
-                          setState(() {
-                            _model.currentBook = searchResultBook
-                                as BookStruct?; //명시적 type casting
-                            print('finish reading1');
-                            print(
-                                '${_model.currentBook}, ${FFAppState().signupnickname}');
-                            ApiService.getReadingRelation(
-                                    FFAppState().signupnickname,
-                                    _model.currentBook!.isbn)
-                                .then((book) {
-                              print(book);
-                              //get에 성공하면 서재에 있음, null이 리턴되면 없음
-                              _model.isInLibrary =
-                                  (book != null) ? true : false;
-                            });
+                          if (searchResultBook != null) {
+                            setState(() {
+                              _model.currentBook = searchResultBook
+                                  as BookStruct?; //명시적 type casting
+                              ApiService.getReadingRelation(
+                                      FFAppState().signupnickname,
+                                      _model.currentBook!.isbn)
+                                  .then((book) {
+                                //get에 성공하면 서재에 있음, null이 리턴되면 없음
+                                _model.isInLibrary =
+                                    (book != null) ? true : false;
+                              });
 
-                            // try {
-                            //   // 알라딘 Api에서 가져온 책이 이미 서재에 있는지 확인.
-                            //   _model.isInLibrary = true;
-                            // } catch (e) {
-                            //   _model.isInLibrary = false;
-                            // }
-                            // _model.isInLibrary = ApiService.getReadingRelation(
-                            //         FFAppState().signupnickname,
-                            //         _model.currentBook.isbn) !=
-                            //     null;
-                          });
+                              // try {
+                              //   // 알라딘 Api에서 가져온 책이 이미 서재에 있는지 확인.
+                              //   _model.isInLibrary = true;
+                              // } catch (e) {
+                              //   _model.isInLibrary = false;
+                              // }
+                              // _model.isInLibrary = ApiService.getReadingRelation(
+                              //         FFAppState().signupnickname,
+                              //         _model.currentBook.isbn) !=
+                              //     null;
+                            });
+                          }
                         },
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(

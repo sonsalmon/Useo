@@ -64,6 +64,9 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
     super.initState();
     _model = createModel(context, () => TimerScreenModel());
 
+    //임시저장 메모들 삭제
+    FFAppState().flushNote();
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       // start timer when page load
