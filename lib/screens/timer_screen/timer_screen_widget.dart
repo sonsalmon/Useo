@@ -93,6 +93,7 @@ class _TimerScreenWidgetState extends State<TimerScreenWidget>
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           automaticallyImplyLeading: false,
