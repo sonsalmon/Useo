@@ -28,6 +28,7 @@ class _SignUpUsernameScreenWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => SignUpUsernameScreenModel());
+    print('회원가입 페이지');
 
     _model.nicknameController ??= TextEditingController();
   }
@@ -116,7 +117,7 @@ class _SignUpUsernameScreenWidgetState
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     35.0, 12.0, 35.0, 12.0),
                                 child: Text(
-                                  '이메일을 입력해주세요.',
+                                  '닉네임을 입력해주세요.',
                                   style:
                                       FlutterFlowTheme.of(context).labelMedium,
                                 ),
@@ -223,11 +224,13 @@ class _SignUpUsernameScreenWidgetState
 
                               // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
                               // api call
-                              if (response.statusCode == 200) {
+                              if (response.statusCode == 201) {
                                 print('회원가입 성공');
+                                print(
+                                    '${FFAppState().signupUsername}, ${FFAppState().signupPassword}');
                                 final loginUrl =
                                     Uri.parse(baseUrl + 'users/login/');
-                                http.Response response = await http
+                                http.Response loginResponse = await http
                                     .post(loginUrl, body: {
                                   'username': FFAppState().signupUsername,
                                   'password': FFAppState().signupPassword
@@ -235,17 +238,24 @@ class _SignUpUsernameScreenWidgetState
 
                                 // _model.emailAddressController.text, 비밀번호로 Auth 추가 필요
                                 // api call
-                                if (response.statusCode == 200) {
+                                if (loginResponse.statusCode == 200) {
+                                  print(
+                                      json.decode(loginResponse.body)['token']);
                                   setState(() {
-                                    FFAppState().loginToken =
-                                        json.decode(response.body)['token'];
+                                    FFAppState().loginToken = json
+                                        .decode(loginResponse.body)['token'];
                                     FFAppState().isSignedIn = true;
                                   });
                                   context.goNamed('HomeScreen');
-                                } else if (response.statusCode == 400) {
+                                } else if (loginResponse.statusCode == 400) {
                                   print('아이디 또는 비밀번호가 일치하지 않습니다.');
+                                } else {
+                                  print('로그인 실패');
                                 }
                               } // api call
+                              else {
+                                print('회원가입 실패');
+                              }
                               // AppState 이메일,비번,유저네임 값으로 회원가입
                               //로그인 필요
                             },
