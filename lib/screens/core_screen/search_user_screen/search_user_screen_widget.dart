@@ -1,8 +1,11 @@
+import 'package:my_useo/api_service.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'search_user_screen_model.dart';
 export 'search_user_screen_model.dart';
 
@@ -42,8 +45,9 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
         print('바깥 터치 -> unfocus');
         FocusScope.of(context).requestFocus(_model.unfocusNode);
         setState(() {
+          print('serch user setState 1');
           _model.isSearching = false;
-          _model.filteredUserList = _model.defaultNearUserList;
+          // _model.filteredUserList = _model.defaultNearUserList;
         });
       },
       child: Scaffold(
@@ -61,7 +65,7 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
-                      child: TextFormField(
+                      child: TextField(
                         controller: _model.textController,
                         // onChanged: (value) => EasyDebounce.debounce(
                         //   '_model.textController',
@@ -73,26 +77,43 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                           //검색 텍스트 필드 클릭하면 검색상태로 진입
                           print('on tap textform field');
                           setState(() {
+                            print('serch user setState 2');
                             _model.isSearching = true;
                           });
                         },
                         onChanged: (value) {
-                          print('내용 바뀌는 중');
                           if (_model.isSearching) {
                             if (_model.textController.text.isEmpty) {
                               setState(() {
+                                print('serch user setState 3');
                                 _model.filteredUserList = [];
                               });
                             } else {
-                              setState(() {
-                                _model.filteredUserList = _model.userList
-                                    .where((user) => user.userName
-                                        .toLowerCase()
-                                        .contains(value.toLowerCase()))
-                                    .toList();
+                              EasyDebounce.debounce('user-list-query',
+                                  Duration(milliseconds: 400), () {
+                                //duration이 지나기 전에 검색 키워드를 비우면 전체 유저리스트 받아오는 현상 발견
+                                //''빈 문자열을 쿼리파라미터로 넘기는 듯.
+                                print(value);
+                                //빈문자열을 쿼리파라미터로 넘기지 않도록 한번 더 검사
+                                if (_model.textController.text.isNotEmpty) {
+
+                                  ApiService.getUserListByKeyword(
+                                          keyword: _model.textController.text)
+                                      .then((responseList) {
+                                    setState(() {
+                                      _model.filteredUserList = responseList;
+                                    });
+                                  });
+                                }
                               });
                             }
                           }
+                        },
+                        // onChanged: (value) {
+                        //   print('내용 바뀌는 중');
+                        // },
+                        onSubmitted: (value) {
+                          print('onFieldSubmitted called');
                         },
 
                         // autofocus: true,
@@ -106,6 +127,8 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                   onPressed: () {
                                     print('클리어텍스트');
                                     setState(() {
+                                      print('serch user setState 5');
+
                                       _model.textController?.clear();
                                       _model.filteredUserList = [];
                                     });
@@ -145,8 +168,6 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium,
-                        validator:
-                            _model.textControllerValidator.asValidator(context),
                       ),
                     ),
                     Padding(
@@ -158,6 +179,7 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                         onPressed: () {
                           print('아이콘 클릭');
                           setState(() {
+                            print('serch user setState 6');
                             _model.isSearching = !_model.isSearching;
                             if (!_model.isSearching) {
                               _model.textController?.clear();
@@ -236,12 +258,15 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      '${user.userProfileImage}',
-                                      width: 36.0,
-                                      height: 36.0,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: (user.profileImage.isEmpty)
+                                        ? Image.asset(
+                                            'assets/images/default_profile.jpeg',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            user.profileImage,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -255,7 +280,7 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${user.userName}',
+                                            '${user.nickname}',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium,
                                           ),
@@ -283,7 +308,7 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                     onPressed: () {
                                       context.pushNamed('LibraryOtherScreen',
                                           queryParameters: {
-                                            'username': user.userName,
+                                            'nickname': user.nickname,
                                           });
                                       print('Button pressed ...');
                                     },

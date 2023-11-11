@@ -1,3 +1,5 @@
+import 'package:my_useo/api_service.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -23,6 +25,13 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => FollowingListScreenModel());
+    ApiService.getUserFollowingList().then((list) => {
+          setState(() {
+            print(list);
+            _model.userList = list;
+            _model.filteredUserList = list;
+          })
+        });
 
     _model.textController ??= TextEditingController();
   }
@@ -97,7 +106,7 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
                             } else {
                               setState(() {
                                 _model.filteredUserList = _model.userList
-                                    .where((user) => user.userName
+                                    .where((user) => user.nickname
                                         .toLowerCase()
                                         .contains(value.toLowerCase()))
                                     .toList();
@@ -244,12 +253,17 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      '${user.userProfileImage}',
-                                      width: 36.0,
-                                      height: 36.0,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: (user.profileImage.isEmpty)
+                                        ? Image.asset(
+                                            'assets/images/default_profile.jpeg',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            '${user.profileImage}',
+                                            width: 36.0,
+                                            height: 36.0,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -263,7 +277,7 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${user.userName}',
+                                            '${user.nickname}',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium,
                                           ),
@@ -291,7 +305,7 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
                                     onPressed: () {
                                       context.pushNamed('LibraryOtherScreen',
                                           queryParameters: {
-                                            'username': user.userName,
+                                            'nickname': user.nickname,
                                           });
                                       print('Button pressed ...');
                                     },
