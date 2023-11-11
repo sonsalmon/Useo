@@ -154,7 +154,7 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.map_sharp,
               size: 24.0,
             ),
-            label: 'Home',
+            label: 'Map',
             tooltip: '',
           ),
           BottomNavigationBarItem(
@@ -166,7 +166,7 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.person,
               size: 24.0,
             ),
-            label: 'Home',
+            label: 'MyLibrary',
             tooltip: '',
           )
         ],

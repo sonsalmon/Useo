@@ -290,7 +290,7 @@ class NoteList extends StatelessWidget {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 8.0, 4.0, 8.0),
                               child: Text(
-                                '책 제목',
+                                '',
                                 textAlign: TextAlign.end,
                                 style: FlutterFlowTheme.of(context).titleLarge,
                               ),

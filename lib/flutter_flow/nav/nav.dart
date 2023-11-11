@@ -92,6 +92,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => BookDetailScreenWidget(
             isbn: params.getParam('isbn', ParamType.String),
             inMyLibrary: params.getParam('inMyLibrary', ParamType.bool),
+            nickname: params.getParam('nickname', ParamType.String),
           ),
         ),
         FFRoute(
@@ -133,7 +134,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'LibraryOtherScreen',
           path: '/libraryOtherScreen',
           builder: (context, params) => LibraryOtherScreenWidget(
-            username: params.getParam('username', ParamType.String),
+            nickname: params.getParam('nickname', ParamType.String),
           ),
         ),
         FFRoute(

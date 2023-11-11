@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
+import 'dart:io';
+// import 'dart:html';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
 import 'package:my_useo/screens/note_list_screen/note_list_screen_widget.dart';
 
@@ -18,6 +20,9 @@ class ApiService {
   static const String user = 'user';
   static const String login = 'login';
   static const String register = 'register';
+  static const String search = 'search';
+  static const String follow = 'follow';
+  static const String following_list = 'following_list';
 
   static const String books = 'books';
   static const String get_list = 'get_list';
@@ -56,7 +61,7 @@ class ApiService {
   static Future<UserModel> getUserProfile({String? nickname}) async {
     // 유저 닉네임 파라미터를 주면 해당 닉네임을 가진 유저 검색, 없으면 token 소유 유저 정보 요청
     final url = (nickname != null && nickname.isNotEmpty)
-        ? Uri.parse('$baseUrl/$users/$user/ ?nickname=$nickname')
+        ? Uri.parse('$baseUrl/$users/$user/?nickname=$nickname')
         : Uri.parse('$baseUrl/$users/$user/');
     // final url = Uri.parse('$baseUrl/$users/$user/');
     http.Response response = await http.get(url, headers: http_headers);
@@ -66,6 +71,98 @@ class ApiService {
       return model;
     }
     throw Error();
+  }
+
+  static Future<int> updateUserProfile(
+      {XFile? profileImage, String? nickname, String? profileMessage}) async {
+    final url = Uri.parse('$baseUrl/$users/$user/');
+    var request = http.MultipartRequest('UPDATE', url);
+    request.headers.addAll(http_headers);
+    if (profileImage != null) {
+      request
+        ..files.add(
+          await http.MultipartFile.fromPath(
+            'profile_image',
+            profileImage.path,
+            // contentType: MediaType('image', 'png'),
+          ),
+        );
+    }
+    if (nickname != null) {
+      request..fields['nickname'] = nickname;
+    }
+    if (profileMessage != null) {
+      request..fields['profile_message'] = profileMessage;
+    }
+    try {
+      var response = await request.send();
+      if (response.statusCode == 201) {
+        print('업로드 성공');
+      }
+      return response.statusCode;
+    } catch (e) {
+      print('Error occurred while sending post request: $e');
+      return exitCode;
+    }
+  }
+
+  static Future<List<UserStruct>> getUserListByKeyword(
+      {required String keyword}) async {
+    String encodedKeyword = Uri.encodeComponent(keyword); // 한글 쿼리파라미터 인코딩
+    final url = Uri.parse('$baseUrl/$users/$search/?query=$encodedKeyword');
+
+    http.Response response = await http.get(url, headers: http_headers);
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(utf8.decode(response.bodyBytes));
+      print(decodedData);
+      print(decodedData.runtimeType);
+      final List<UserStruct> resultUsers = (decodedData as List)
+          .map((userJson) =>
+              UserStruct.fromMap(userJson as Map<String, dynamic>))
+          .toList();
+      return resultUsers;
+    } else {
+      throw Exception('유저를 불러오는 데 실패했습니다.');
+    }
+  }
+
+  static Future<bool> followUser(
+      {required String nickname, required bool wantToCheck}) async {
+    /*
+    checkFollowing == true : nickname 유저를 팔로잉 하고 있는지 확인 결과 t/f
+    checkFollowing == false : nickname 유저를 실제로 팔로우 / 언 팔로우 토글 결과 t/f
+     */
+    String encodedNickname = Uri.encodeComponent(nickname); // 한글 쿼리파라미터 인코딩
+    final url = Uri.parse(
+        '$baseUrl/$users/$follow/?wantToCheck=$wantToCheck&&nickname=$encodedNickname');
+
+    http.Response response = await http.get(url, headers: http_headers);
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(utf8.decode(response.bodyBytes));
+      final String followStr = decodedData['follow'];
+      final bool follow = followStr.toLowerCase() == 'true';
+      return follow;
+    } else {
+      throw Exception('팔로우 오류');
+    }
+  }
+
+  static Future<List<UserStruct>> getUserFollowingList() async {
+    final url = Uri.parse('$baseUrl/$users/$following_list/');
+
+    http.Response response = await http.get(url, headers: http_headers);
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(utf8.decode(response.bodyBytes));
+      print(decodedData);
+      final List<UserStruct> resultUsers = (decodedData as List)
+          .map((userJson) =>
+              UserStruct.fromMap(userJson as Map<String, dynamic>))
+          .toList();
+      print(resultUsers);
+      return resultUsers;
+    } else {
+      throw Exception('유저를 불러오는 데 실패했습니다.');
+    }
   }
 
   //특정 유저의 독서 관계 리스트
@@ -154,13 +251,13 @@ class ApiService {
   }
   //책 생성api
 
-  static void createReadingRelation({
+  static Future<int> createReadingRelation({
     required BookStruct bookData,
     required String readingState,
-    required String readingDuration, //String 형
-    required double readingProgress,
+    String readingDuration = '00:00:00', //String 형
+    double readingProgress = 0,
     // required DateTime add_date,
-    Double? rate,
+    double? rate,
   }) async {
     final url = Uri.parse('$baseUrl/$books/$create/');
     final body = json.encode({
@@ -175,10 +272,16 @@ class ApiService {
         headers: http_headers,
         body: body,
       );
-      if (response.statusCode == 201) {}
+      if (response.statusCode == 201) {
+        print('독서관계 생성 성공');
+      } else if (response.statusCode == 500) {
+        print('독서관계 저장 실패 : 중복');
+        //??
+      }
+      return response.statusCode;
     } catch (e) {
-      print('Error occurred while sending delete request: $e');
-      // return null;
+      print('Error occurred while sending create request: $e');
+      return 404;
     }
   }
 

@@ -5,124 +5,134 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class UserStruct extends BaseStruct {
   UserStruct({
-    int? userId,
-    String? userName,
-    String? userLocation,
-    String? userProfileImage,
-    List<BookStruct>? userBookList,
-  })  : _userId = userId,
-        _userName = userName,
-        _userLocation = userLocation,
-        _userProfileImage = userProfileImage,
-        _userBookList = userBookList;
+    int? id,
+    String? nickname,
+    String? profileMessage,
+    String? profileImage,
+    double? latitude,
+    double? longitude,
+  })  : _id = id,
+        _nickname = nickname,
+        _profileMessage = profileMessage,
+        _profileImage = profileImage,
+        _latitude = latitude;
+  // "id" field.
+  int? _id;
+  int get id => _id ?? 0;
+  set id(int? val) => _id = val;
+  void incrementUserId(int amount) => _id = id + amount;
+  bool hasId() => _id != null;
 
-  // "userId" field.
-  int? _userId;
-  int get userId => _userId ?? 0;
-  set userId(int? val) => _userId = val;
-  void incrementUserId(int amount) => _userId = userId + amount;
-  bool hasUserId() => _userId != null;
+  // "nickname" field.
+  String? _nickname;
+  String get nickname => _nickname ?? '';
+  set nickname(String? val) => _nickname = val;
+  bool hasNickname() => _nickname != null;
 
-  // "userName" field.
-  String? _userName;
-  String get userName => _userName ?? '';
-  set userName(String? val) => _userName = val;
-  bool hasUserName() => _userName != null;
+  // "profileMessage" field.
+  String? _profileMessage;
+  String get profileMessage => _profileMessage ?? '';
+  set profileMessage(String? val) => _profileMessage = val;
+  bool hasProfileMessage() => _profileMessage != null;
 
-  // "userLocation" field.
-  String? _userLocation;
-  String get userLocation => _userLocation ?? '';
-  set userLocation(String? val) => _userLocation = val;
-  bool hasUserLocation() => _userLocation != null;
+  // "profileImage" field.
+  String? _profileImage;
+  String get profileImage => _profileImage ?? '';
+  set userProfielImage(String? val) => _profileImage = val;
+  bool hasProfileImage() => _profileImage != null;
 
-  // "userProfileImage" field.
-  String? _userProfileImage;
-  String get userProfileImage => _userProfileImage ?? '';
-  set userProfielImage(String? val) => _userProfileImage = val;
-  bool hasUserProfileImage() => _userProfileImage != null;
+  //
+  double? _longitude;
+  double get longitude => _longitude ?? 0;
+  set longitude(double? val) => _longitude = val;
+  bool hasLongitude() => _longitude != null;
 
-  // "userBookList" field.
-  List<BookStruct>? _userBookList;
-  List<BookStruct> get userBookList => _userBookList ?? const [];
-  set userBookList(List<BookStruct>? val) => _userBookList = val;
-  void updateUserBookList(Function(List<BookStruct>) updateFn) =>
-      updateFn(_userBookList ??= []);
-  bool hasUserBookList() => _userBookList != null;
+  //
+  double? _latitude;
+  double get latitude => _latitude ?? 0;
+  set latitude(double? val) => _latitude = val;
+  bool hasLatitude() => _latitude != null;
 
   static UserStruct fromMap(Map<String, dynamic> data) => UserStruct(
-        userId: castToType<int>(data['userId']),
-        userName: data['userName'] as String?,
-        userLocation: data['userLocation'] as String?,
-        userProfileImage: data['userProfileImage'] as String?,
-        userBookList: getStructList(
-          data['userBookList'],
-          BookStruct.fromMap,
-        ),
+        id: castToType<int>(data['id']),
+        nickname: data['nickname'] as String?,
+        profileMessage: data['profile_message'] as String?,
+        profileImage: data['profile_image'] as String?,
+        longitude: data['library_longitude'] as double?,
+        latitude: data['library_latitude'] as double?,
       );
 
   static UserStruct? maybeFromMap(dynamic data) =>
       data is Map<String, dynamic> ? UserStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'userId': _userId,
-        'userName': _userName,
-        'userLocation': _userLocation,
-        'userProfileImage': _userProfileImage,
-        'userBookList': _userBookList?.map((e) => e.toMap()).toList(),
+        'id': _id,
+        'nickname': _nickname,
+        'profileMessage': _profileMessage,
+        'profileImage': _profileImage,
+        'longitude': _longitude,
+        'latitude': _latitude
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'userId': serializeParam(
-          _userId,
+        'id': serializeParam(
+          _id,
           ParamType.int,
         ),
-        'userName': serializeParam(
-          _userName,
+        'nickname': serializeParam(
+          _nickname,
           ParamType.String,
         ),
-        'userLocation': serializeParam(
-          _userLocation,
+        'profileMessage': serializeParam(
+          _profileMessage,
           ParamType.String,
         ),
-        'userProfileImage': serializeParam(
-          _userProfileImage,
+        'profileImage': serializeParam(
+          _profileImage,
           ParamType.String,
         ),
-        'userBookList': serializeParam(
-          _userBookList,
-          ParamType.DataStruct,
-          true,
+        'longitude': serializeParam(
+          _longitude,
+          ParamType.double,
+        ),
+        'latitude': serializeParam(
+          _latitude,
+          ParamType.double,
         ),
       }.withoutNulls;
 
   static UserStruct fromSerializableMap(Map<String, dynamic> data) =>
       UserStruct(
-        userId: deserializeParam(
-          data['userId'],
+        id: deserializeParam(
+          data['id'],
           ParamType.int,
           false,
         ),
-        userName: deserializeParam(
-          data['userName'],
+        nickname: deserializeParam(
+          data['nickname'],
           ParamType.String,
           false,
         ),
-        userLocation: deserializeParam(
-          data['userLocation'],
+        profileMessage: deserializeParam(
+          data['profileMessage'],
           ParamType.String,
           false,
         ),
-        userProfileImage: deserializeParam(
-          data['userProfileImage'],
+        profileImage: deserializeParam(
+          data['profileImage'],
           ParamType.String,
           false,
         ),
-        userBookList: deserializeStructParam<BookStruct>(
-          data['userBookList'],
-          ParamType.DataStruct,
-          true,
-          structBuilder: BookStruct.fromSerializableMap,
+        longitude: deserializeParam(
+          data['longitude'],
+          ParamType.double,
+          false,
+        ),
+        latitude: deserializeParam(
+          data['latitude'],
+          ParamType.double,
+          false,
         ),
       );
 
@@ -133,27 +143,32 @@ class UserStruct extends BaseStruct {
   bool operator ==(Object other) {
     const listEquality = ListEquality();
     return other is UserStruct &&
-        userId == other.userId &&
-        userName == other.userName &&
-        userLocation == other.userLocation &&
-        userProfileImage == other.userProfileImage &&
-        listEquality.equals(userBookList, other.userBookList);
+        id == other.id &&
+        nickname == other.nickname &&
+        profileMessage == other.profileMessage &&
+        profileImage == other.profileImage &&
+        longitude == other.longitude &&
+        latitude == other.latitude;
   }
 
   @override
   int get hashCode => const ListEquality()
-      .hash([userId, userName, userLocation, userProfileImage, userBookList]);
+      .hash([id, nickname, profileMessage, profileImage, longitude, latitude]);
 }
 
 UserStruct createUserStruct({
-  int? userId,
-  String? userName,
-  String? userLocation,
-  String? userProfileImage,
+  int? id,
+  String? nickname,
+  String? profileMessage,
+  String? profileImage,
+  double? longitude,
+  double? latitude,
 }) =>
     UserStruct(
-      userId: userId,
-      userName: userName,
-      userLocation: userLocation,
-      userProfileImage: userProfileImage,
+      id: id,
+      nickname: nickname,
+      profileMessage: profileMessage,
+      profileImage: profileImage,
+      longitude: longitude,
+      latitude: latitude,
     );

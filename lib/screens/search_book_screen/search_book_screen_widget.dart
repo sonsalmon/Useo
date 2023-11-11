@@ -1,5 +1,6 @@
 import 'package:my_useo/api_service.dart';
 import 'package:my_useo/backend/schema/structs/book_struct.dart';
+import 'package:my_useo/components/select_reading_state/select_reading_state_widget.dart';
 
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -222,26 +223,107 @@ class BookList extends StatelessWidget {
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () async {
-                widget.nowReading
-                    ? context.pop(searchResultBook)
-                    : context.pushReplacementNamed(
-                        'bookDetailScreen',
-                        queryParameters: {
-                              'isbn':
-                                  searchResultBook.isbn.toString(),
-                              'bookName': searchResultBook.title,
-                              'bookImage':
-                                  searchResultBook.cover,
-                              'bookAuthor':
-                                  searchResultBook.author,
-                              'bookSummery':
-                                  searchResultBook.description,
-                              'bookPublisher':
-                                  searchResultBook.publisher,
-                          // 'book': searchResultBook,
-                          'inMyLibrary': false.toString(),
-                        },
-                      ); //DB에 책 등록
+                if (widget.nowReading) {
+                  context.pop(searchResultBook);
+                } else {
+                  final result = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('서재에 추가'),
+                      content:
+                          Text('${searchResultBook.title}, 이 책을 서재에 추가할까요?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text(
+                            '아니요',
+                            style: TextStyle(
+                                color:
+                                    FlutterFlowTheme.of(context).primaryText),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final value = await showModalBottomSheet(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              enableDrag: false,
+                              context: context,
+                              builder: (context) {
+                                return SelectReadingStateWidget();
+                              },
+                            );
+                            print(value);
+                            if (value != null) {
+                              //독서 상태를 선택했으면
+                              //api call 내 서재에 추가
+                              print('api call');
+                              final statusCode =
+                                  await ApiService.createReadingRelation(
+                                bookData: searchResultBook,
+                                readingState: value,
+                              );
+                              if (statusCode == 201) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '서재에 추가 완료!',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                          ),
+                                    ),
+                                    duration: Duration(milliseconds: 1000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).success,
+                                  ),
+                                );
+                              } else {
+                                String errorMessage;
+                                if (statusCode == 500) {
+                                  errorMessage = '이미 서재에 있는 책입니다.';
+                                } else {
+                                  errorMessage =
+                                      '알 수 없는 에러가 발생했습니다. 다시 시도해주세요.';
+                                }
+                                final result = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('서재 추가 오류'),
+                                    content: Text('$errorMessage'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: Text(
+                                          '확인',
+                                          style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            }
+
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            '서재에 추가',
+                            style: TextStyle(
+                                color: FlutterFlowTheme.of(context).success),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
               child: Container(
                 width: 100.0,
