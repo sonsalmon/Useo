@@ -10,8 +10,8 @@ class LibraryOtherScreenModel extends FlutterFlowModel {
 
   bool following = false; //내가 이 서재 following 중?
   bool isSearching = false; //책 검색창 활성화
-  List<BookStruct> myLibrary = []; //api call 불러와야 함.
-  List<BookStruct> filteredBookList = []; //api call 불러와야 함.
+  List<Map<String, dynamic>>? myLibraryList; //api call 불러와야 함.
+  List<Map<String, dynamic>> filteredBookList = []; //api call 불러와야 함.
 
   ///  State fields for stateful widgets in this page.
 
@@ -28,9 +28,11 @@ class LibraryOtherScreenModel extends FlutterFlowModel {
   void sortBookList() {
     switch (sortOption) {
       case 'title':
-        filteredBookList.sort((a, b) => a.title.compareTo(b.title));
+        filteredBookList.sort((a, b) =>
+            a['book_data']['title'].compareTo(b['book_data']['title']));
       case 'title_reverse':
-        filteredBookList.sort((a, b) => b.title.compareTo(a.title));
+        filteredBookList.sort((a, b) =>
+            b['book_data']['title'].compareTo(a['book_data']['title']));
     }
   }
 

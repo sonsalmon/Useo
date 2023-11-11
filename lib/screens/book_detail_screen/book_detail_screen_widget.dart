@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart';
 import 'package:my_useo/api_service.dart';
@@ -20,21 +18,23 @@ class BookDetailScreenWidget extends StatefulWidget {
     Key? key,
     required this.isbn,
     required this.inMyLibrary,
-  }) :
-        // assert(
-        //   //내 서재의 책이라면 독서 상태들 값 있어야 함.
-        //           !inMyLibrary ||
-        //               (readingState != null &&
-        //                   rate != null &&
-        //                   readingProgress != null &&
-        //                   readingDuration != null),
-        //           'When inMyLibrary is true, readingState, rate, readingProgress, and readingDuration must not be null.'),
-        super(key: key);
+    String? nickname,
+  }) : super(key: key) {
+    print('initialize 도서 상세페이지');
+    if (inMyLibrary) {
+      this.nickname = FFAppState().signupnickname;
+    } else {
+      assert(nickname != null, '내 서재가 아니면 닉네임이 있어야함');
+      this.nickname = nickname!;
+    }
+  }
+  //       super(key: key);
   final String isbn;
 
   // final BookStruct book = FFAppState().mostRecentReadBook;
 
   final bool inMyLibrary;
+  late String nickname;
 
   @override
   _BookDetailScreenWidgetState createState() => _BookDetailScreenWidgetState();
@@ -48,6 +48,10 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
   @override
   void initState() {
     super.initState();
+    // if (widget.inMyLibrary && (widget.nickname.isEmpty)) {
+    //   // 내 서재
+    //   widget.nickname = FFAppState().signupnickname;
+    // } else {}
   }
 
   @override
@@ -66,11 +70,10 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
         future: Future.wait(
           [
             // snapshot.data[0] : 독서 관계
-            ApiService.getReadingRelation(
-                FFAppState().signupnickname, widget.isbn),
+            ApiService.getReadingRelation(widget.nickname, widget.isbn),
             // snapshot.data[1] : 노트 리스트
             ApiService.getNoteList(
-                isbn: widget.isbn, nickname: FFAppState().signupnickname),
+                isbn: widget.isbn, nickname: widget.nickname),
           ],
         ),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -210,27 +213,66 @@ class _BookDetailScreenWidgetState extends State<BookDetailScreenWidget> {
                                     return SelectReadingStateWidget();
                                   },
                                 );
+                                print(value);
                                 if (value != null) {
                                   //독서 상태를 선택했으면
                                   //api call 내 서재에 추가
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '서재에 추가 완료!',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Readex Pro',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                      ),
-                                      duration: Duration(milliseconds: 1000),
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context).success,
-                                    ),
+                                  print('api call');
+                                  final statusCode =
+                                      await ApiService.createReadingRelation(
+                                    bookData: _model.book,
+                                    readingState: value,
                                   );
+                                  if (statusCode == 201) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          '서재에 추가 완료!',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                        ),
+                                        duration: Duration(milliseconds: 1000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .success,
+                                      ),
+                                    );
+                                  } else {
+                                    String errorMessage;
+                                    if (statusCode == 500) {
+                                      errorMessage = '이미 서재에 있는 책입니다.';
+                                    } else {
+                                      errorMessage =
+                                          '알 수 없는 에러가 발생했습니다. 다시 시도해주세요.';
+                                    }
+                                    final result = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('서재 추가 오류'),
+                                        content: Text('$errorMessage'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(false),
+                                            child: Text(
+                                              '확인',
+                                              style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 }
                               }, //내 서재에 추가
                               child: Icon(

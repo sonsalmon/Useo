@@ -5,15 +5,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:my_useo/constants.dart' as Constants;
+import 'package:my_useo/api_service.dart';
 import 'library_other_screen_model.dart';
 export 'library_other_screen_model.dart';
 
 class LibraryOtherScreenWidget extends StatefulWidget {
   const LibraryOtherScreenWidget({
     Key? key,
-    required this.username,
+    required this.nickname,
   }) : super(key: key);
-  final String username;
+  final String nickname;
 
   @override
   _LibraryScreenWidgetState createState() => _LibraryScreenWidgetState();
@@ -45,7 +46,6 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
 
     return GestureDetector(
       onTap: () {
-        print('바깥 터치 -> unfocus');
         FocusScope.of(context).requestFocus(_model.unfocusNode);
         setState(() {
           _model.isSearching = false;
@@ -90,26 +90,44 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                               ),
                             ),
                             Text(
-                              '${widget.username}의 서재',
+                              '${widget.nickname}의 서재',
                               style: FlutterFlowTheme.of(context).headlineLarge,
                             ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _model.following = !_model.following;
-                                    //api call 팔로잉 / 팔로잉 취소
-                                  });
-                                },
-                                child: Icon(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 35,
-                                  _model.following
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                ),
-                              ),
+                              child: FutureBuilder(
+                                  future: ApiService.followUser(
+                                      nickname: widget.nickname,
+                                      wantToCheck: true),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      _model.following = snapshot.data!;
+                                      return InkWell(
+                                        onTap: () {
+                                          ApiService.followUser(
+                                                  nickname: widget.nickname,
+                                                  wantToCheck: false)
+                                              .then((isFollow) {
+                                            setState(() {
+                                              _model.following = isFollow;
+                                            });
+                                          });
+                                        },
+                                        child: Icon(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 35,
+                                          _model.following
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  }),
                             )
                           ],
                         ),
@@ -135,19 +153,19 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                                       _model.isSearching = true;
                                     });
                                   },
-                                  onChanged: (value) {
-                                    print(_model.filteredBookList);
-                                    if (_model.isSearching) {
-                                      setState(() {
-                                        _model.filteredBookList = _model
-                                            .myLibrary
-                                            .where((book) => book.title
-                                                .toLowerCase()
-                                                .contains(value.toLowerCase()))
-                                            .toList();
-                                      });
-                                    }
-                                  },
+                                  // onChanged: (value) async {
+                                  //   if (_model.isSearching) {
+                                  //     _model.myLibraryList?.then((list) {
+                                  //       _model.filteredBookList = list
+                                  //           .where((book) => book['book_data']
+                                  //                   ['title']
+                                  //               .toLowerCase()
+                                  //               .contains(value.toLowerCase()))
+                                  //           .toList();
+                                  //       setState(() {});
+                                  //     });
+                                  //   }
+                                  // },
                                   decoration: InputDecoration(
                                     labelText: '책 검색',
                                     labelStyle: FlutterFlowTheme.of(context)
@@ -203,14 +221,13 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  setState(() {
-                                    _model.isSearching = !_model.isSearching;
-                                    if (!_model.isSearching) {
-                                      _model.textController?.clear();
-                                      _model.filteredBookList =
-                                          _model.myLibrary;
-                                    }
-                                  });
+                                  _model.isSearching = !_model.isSearching;
+                                  if (!_model.isSearching) {
+                                    _model.textController?.clear();
+                                    _model.filteredBookList =
+                                        _model.myLibraryList!;
+                                  }
+                                  setState(() {});
                                 },
                                 child: Icon(_model.isSearching
                                     ? Icons.cancel
@@ -279,41 +296,36 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
-                    child: GridView(
-                      padding: EdgeInsets.zero,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 0.68,
-                      ),
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        for (var libraryBook in _model.filteredBookList)
-                          InkWell(
-                            onTap: () => context.pushNamed('bookDetailScreen',
-                                // queryParameters: {
-                                //   'isbn': libraryBook.isbn.toString(),
-                                //   'bookName': libraryBook.bookName,
-                                //   'bookImage': libraryBook.bookImage,
-                                //   'bookAuthor': libraryBook.bookAuthor,
-                                //   'bookCategory': libraryBook.bookCategory,
-                                //   'bookSummery': libraryBook.bookSummery,
-                                //   'bookPublisher': libraryBook.bookPublisher,
-                                //   'inMyLibrary': 'false',
-                                // },
-                                ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                '${libraryBook.cover}',
-                                width: 300.0,
-                                height: 200.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                      ],
+                    // child: BookList(model: _model),
+                    child: FutureBuilder(
+                      future:
+                          ApiService.getUserBookList(nickname: widget.nickname)
+                              .then((list) => _model.myLibraryList = list),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          // _model.loadLibraryList();
+                          _model.filteredBookList = _model.myLibraryList!;
+                          return BookList(
+                            widget: widget,
+                            resultList: _model.filteredBookList,
+                            //BookList에서 호출하는 콜백함수
+                            // onItemChanged: () {
+                            //   //책 리스트 다시 로드
+                            //   _model.myLibraryList = ApiService.getUserBookList(
+                            //       nickname: widget.username);
+                            //   _model.myLibraryList?.then((list) {
+                            //     setState(() {
+                            //       _model.filteredBookList = list;
+                            //     });
+                            //   });
+                            // },
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -322,6 +334,57 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class BookList extends StatelessWidget {
+  // final Function() onItemChanged; //콜백함수
+  const BookList({
+    super.key,
+    required this.widget,
+    required this.resultList,
+    // required this.onItemChanged,
+  });
+
+  final LibraryOtherScreenWidget widget;
+  final List<Map<String, dynamic>> resultList;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView(
+      padding: EdgeInsets.zero,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 10.0,
+        mainAxisSpacing: 10.0,
+        childAspectRatio: 0.68,
+      ),
+      scrollDirection: Axis.vertical,
+      children: [
+        for (var libraryBook in resultList)
+          InkWell(
+            onTap: () {
+              context.pushNamed(
+                'bookDetailScreen',
+                queryParameters: {
+                  'isbn': libraryBook['book_data']['isbn'].toString(),
+                  'inMyLibrary': 'false',
+                  'nickname': widget.nickname,
+                },
+              ); //.then((_) => onItemChanged()); //책 삭제했을 경우 도서 리스트 업데이트 되도록
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                '${libraryBook['book_data']['cover_image']}',
+                width: 300.0,
+                height: 200.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
