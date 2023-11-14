@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import '/backend/schema/structs/index.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
@@ -70,6 +71,33 @@ class FFAppState extends ChangeNotifier {
   List<String> get notes => List.unmodifiable(_notes); //수정 불가
   set notes(List<String> value) {
     _notes = value;
+  }
+
+  // Position _userPosition = Position(
+  //     longitude: 0,
+  //     latitude: 0,
+  //     timestamp: DateTime(2000),
+  //     accuracy: 0,
+  //     altitude: 0,
+  //     altitudeAccuracy: 0,
+  //     heading: 0,
+  //     headingAccuracy: 0,
+  //     speed: 0,
+  //     speedAccuracy: 0);
+  // Position get userPosition => _userPosition;
+  // set userPosition(Position _value) {
+  //   _userPosition = _value;
+  // }
+  double _userLatitude = 0;
+  double get userLatitude => _userLatitude;
+  set userLatitude(double _value) {
+    _userLatitude = _value;
+  }
+
+  double _userLongitude = 0;
+  double get userLongitude => _userLongitude;
+  set userLongitude(double _value) {
+    _userLongitude = _value;
   }
 
   void addNote(String note) {
