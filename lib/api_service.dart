@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
+import 'package:my_useo/position_process.dart';
 import 'package:my_useo/screens/note_list_screen/note_list_screen_widget.dart';
 
 import 'app_state.dart';
@@ -23,6 +24,7 @@ class ApiService {
   static const String search = 'search';
   static const String follow = 'follow';
   static const String following_list = 'following_list';
+  static const String near_list = 'near_list';
 
   static const String books = 'books';
   static const String get_list = 'get_list';
@@ -73,10 +75,15 @@ class ApiService {
     throw Error();
   }
 
-  static Future<int> updateUserProfile(
-      {XFile? profileImage, String? nickname, String? profileMessage}) async {
+  static Future<int> updateUserProfile({
+    XFile? profileImage,
+    String? nickname,
+    String? profileMessage,
+    double? latitude,
+    double? longitude,
+  }) async {
     final url = Uri.parse('$baseUrl/$users/$user/');
-    var request = http.MultipartRequest('UPDATE', url);
+    var request = http.MultipartRequest('PATCH', url);
     request.headers.addAll(http_headers);
     if (profileImage != null) {
       request
@@ -94,10 +101,20 @@ class ApiService {
     if (profileMessage != null) {
       request..fields['profile_message'] = profileMessage;
     }
+    if (latitude != null) {
+      request..fields['library_latitude'] = latitude.toString();
+    }
+    if (longitude != null) {
+      request..fields['library_longitude'] = longitude.toString();
+    }
+
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
         print('업로드 성공');
+      }
+      if (response.statusCode == 206) {
+        print('partial request 성공');
       }
       return response.statusCode;
     } catch (e) {
@@ -114,8 +131,6 @@ class ApiService {
     http.Response response = await http.get(url, headers: http_headers);
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
-      print(decodedData);
-      print(decodedData.runtimeType);
       final List<UserStruct> resultUsers = (decodedData as List)
           .map((userJson) =>
               UserStruct.fromMap(userJson as Map<String, dynamic>))
@@ -125,6 +140,10 @@ class ApiService {
       throw Exception('유저를 불러오는 데 실패했습니다.');
     }
   }
+
+  // static Future<List<UserStruct>> getUserListByPosition() async{
+
+  // }
 
   static Future<bool> followUser(
       {required String nickname, required bool wantToCheck}) async {
@@ -147,6 +166,7 @@ class ApiService {
     }
   }
 
+// 사용자가 팔로우 하고 있는 유저의 리스트
   static Future<List<UserStruct>> getUserFollowingList() async {
     final url = Uri.parse('$baseUrl/$users/$following_list/');
 
@@ -159,6 +179,29 @@ class ApiService {
               UserStruct.fromMap(userJson as Map<String, dynamic>))
           .toList();
       print(resultUsers);
+      return resultUsers;
+    } else {
+      throw Exception('유저를 불러오는 데 실패했습니다.');
+    }
+  }
+
+  // 나와 가까운 유저의 리스트
+  static Future<List<UserStruct>> getNearUserList() async {
+    print('근처 유저 api 함수 내부 진입');
+    final currentPosition =
+        await PositionProcess.determinePosition(); //유저의 현재 위치
+    final url = Uri.parse(
+        '$baseUrl/$users/$near_list/?library_latitude=${currentPosition['latitude']}&&library_longitude=${currentPosition['longitude']}');
+
+    http.Response response = await http.get(url, headers: http_headers);
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(utf8.decode(response.bodyBytes));
+      final List<UserStruct> resultUsers = (decodedData as List)
+          .map((userJson) =>
+              UserStruct.fromMap(userJson as Map<String, dynamic>))
+          .toList();
+      print('근처 유저 api 함수 완료');
+
       return resultUsers;
     } else {
       throw Exception('유저를 불러오는 데 실패했습니다.');
