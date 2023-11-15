@@ -89,9 +89,13 @@ class _LibraryScreenWidgetState extends State<LibraryOtherScreenWidget> {
                                 size: 35,
                               ),
                             ),
-                            Text(
-                              '${widget.nickname}의 서재',
-                              style: FlutterFlowTheme.of(context).headlineLarge,
+                            Flexible(
+                              child: Text(
+                                '${widget.nickname}의 서재',
+                                style:
+                                    FlutterFlowTheme.of(context).headlineLarge,
+                                // overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),

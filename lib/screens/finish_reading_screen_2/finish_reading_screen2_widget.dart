@@ -460,13 +460,13 @@ class _FinishReadingScreen2WidgetState
                             */
                             if (widget.isInLibrary) {
                               //독서 상태 업데이트
-                              ApiService.updateReadingRelation(
+                              await ApiService.updateReadingRelation(
                                   bookData: FFAppState().mostRecentReadBook,
                                   readingState: _model.readingStateKey,
                                   readingDuration: widget.readingDuration,
                                   readingProgress: _model.readingProgress);
                             } else {
-                              ApiService.createReadingRelation(
+                              await ApiService.createReadingRelation(
                                   bookData: FFAppState().mostRecentReadBook,
                                   readingState: _model.readingStateKey,
                                   readingDuration: widget.readingDuration,
@@ -475,7 +475,7 @@ class _FinishReadingScreen2WidgetState
                               //독서 상태 생성
                             }
                             //노트 리스트 생성
-                            ApiService.createNoteList(
+                            await ApiService.createNoteList(
                               noteList: FFAppState().notes,
                               isbn: FFAppState().mostRecentReadBook.isbn,
                             );
