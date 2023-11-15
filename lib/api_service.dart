@@ -329,7 +329,7 @@ class ApiService {
     }
   }
 
-  static void updateReadingRelation({
+  static Future<void> updateReadingRelation({
     required BookStruct bookData, //read_only
     String? readingState,
     String? readingDuration, //String 형
@@ -385,7 +385,7 @@ class ApiService {
     }
   }
 
-  static void createNoteList({
+  static Future<void> createNoteList({
     required List<String> noteList,
     required String isbn,
   }) async {
