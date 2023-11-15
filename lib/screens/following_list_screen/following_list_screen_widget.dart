@@ -251,19 +251,21 @@ class _FollowingListScreenWidgetState extends State<FollowingListScreenWidget> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: (user.profileImage.isEmpty)
-                                        ? Image.asset(
-                                            'assets/images/default_profile.jpeg',
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.network(
-                                            '${user.profileImage}',
-                                            width: 36.0,
-                                            height: 36.0,
-                                            fit: BoxFit.cover,
-                                          ),
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: (user.profileImage.isEmpty)
+                                          ? Image.asset(
+                                              'assets/images/default_profile.jpeg',
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.network(
+                                              '${user.profileImage}',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
                                   ),
                                   Expanded(
                                     child: Padding(

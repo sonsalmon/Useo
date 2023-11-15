@@ -29,7 +29,8 @@ class User extends StatelessWidget {
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () async {
-              scaffoldKey.currentState!.openDrawer();
+              // scaffoldKey.currentState!.openDrawer();
+              print(profileImage);
             },
             child: Container(
               width: 60.0,

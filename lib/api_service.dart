@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
 import 'package:my_useo/position_process.dart';
 import 'package:my_useo/screens/note_list_screen/note_list_screen_widget.dart';
+import 'package:my_useo/constants.dart';
 
 import 'app_state.dart';
 import 'screens/core_screen/home_screen/user_model.dart';
@@ -16,7 +17,7 @@ class ApiService {
       'http://www.aladin.co.kr/ttb/api/ItemSearch.aspx';
   static const String aladinApiKey = 'ttbkey=ttbsjmjis02081525001';
 
-  static const String baseUrl = 'http://127.0.0.1:8000';
+  // static const String baseUrl = baseUrl;
   static const String users = 'users';
   static const String user = 'user';
   static const String login = 'login';

@@ -1,5 +1,6 @@
 import 'package:my_useo/api_service.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
+import 'package:my_useo/constants.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -296,18 +297,22 @@ class _SearchUserScreenWidgetState extends State<SearchUserScreenWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            child: (user.profileImage.isEmpty)
-                                                ? Image.asset(
-                                                    'assets/images/default_profile.jpeg',
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.network(
-                                                    user.profileImage,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              child: (user.profileImage.isEmpty)
+                                                  ? Image.asset(
+                                                      'assets/images/default_profile.jpeg',
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.network(
+                                                      '$baseUrl/${user.profileImage}',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                            ),
                                           ),
                                           Expanded(
                                             child: Padding(
