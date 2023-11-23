@@ -339,8 +339,12 @@ class _EditProfileScreenWidgetState extends State<EditProfileScreenWidget> {
                                           }
                                         } else {
                                           print('else 2');
-                                          return Image.network(
-                                              currentUser.profileImage!);
+                                          return (currentUser.profileImage ==
+                                                  null)
+                                              ? Image.asset(
+                                                  'assets/images/default_profile.jpeg')
+                                              : Image.network(
+                                                  currentUser.profileImage!);
                                         }
                                         // child: (true)
                                         // // : Image.file(FFAppState().tempProfilePic,fit: BoxFit.cover,),
