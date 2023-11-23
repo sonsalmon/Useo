@@ -49,6 +49,13 @@ class _SettingScreenWidgetState extends State<SettingScreenWidget> {
                 SettingsTile(
                   title: Text('로그아웃'),
                   onPressed: (context) {
+                    FFAppState().isSignedIn = false;
+                    FFAppState().signupUsername = '';
+                    FFAppState().signupnickname = '';
+                    FFAppState().signupPassword = '';
+                    FFAppState().loginToken = '';
+                    context.goNamed('LoginScreen');
+
                     // Navigate to change profile picture
                   },
                 ),
