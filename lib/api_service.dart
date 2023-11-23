@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 // import 'dart:html';
 
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_useo/backend/schema/structs/index.dart';
 import 'package:my_useo/position_process.dart';
 import 'package:my_useo/screens/note_list_screen/note_list_screen_widget.dart';
 import 'package:my_useo/constants.dart';
+import 'package:provider/provider.dart';
 
 import 'app_state.dart';
 import 'screens/core_screen/home_screen/user_model.dart';
@@ -35,17 +37,20 @@ class ApiService {
   static const String notes = 'notes';
   static const String list = 'list';
 
-  static final Map<String, String> http_headers = {
-    'Authorization': 'Token ${FFAppState().loginToken}',
-    'Content-Type': 'application/json', //보내는 형식
-    'Accept': 'application/json', // 받는 형식
-  };
+  static Map<String, String> getHttpHeaders() {
+    return {
+      'Authorization': 'Token ${FFAppState().loginToken}',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+  }
+
   // 알라딘 API로 책 검색
   static Future<List<BookStruct>> getBookQuery(String query) async {
     // late List < BookStruct > bookListJson = [];
     final url = Uri.parse(
         '$bookQueryUrl?$aladinApiKey&Query=$query&QueryType=Keyword&MaxResults=15&start=1&SearchTarget=Book&output=JS&Version=20131101');
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decodedData = json.decode(response.body);
@@ -67,7 +72,7 @@ class ApiService {
         ? Uri.parse('$baseUrl/$users/$user/?nickname=$nickname')
         : Uri.parse('$baseUrl/$users/$user/');
     // final url = Uri.parse('$baseUrl/$users/$user/');
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = utf8.decode(response.bodyBytes); //응답을 utf-8형식으로 디코딩
       UserModel model = UserModel.fromJson(json.decode(decodedData));
@@ -85,7 +90,7 @@ class ApiService {
   }) async {
     final url = Uri.parse('$baseUrl/$users/$user/');
     var request = http.MultipartRequest('PATCH', url);
-    request.headers.addAll(http_headers);
+    request.headers.addAll(getHttpHeaders());
     if (profileImage != null) {
       request
         ..files.add(
@@ -129,7 +134,7 @@ class ApiService {
     String encodedKeyword = Uri.encodeComponent(keyword); // 한글 쿼리파라미터 인코딩
     final url = Uri.parse('$baseUrl/$users/$search/?query=$encodedKeyword');
 
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
       final List<UserStruct> resultUsers = (decodedData as List)
@@ -156,7 +161,7 @@ class ApiService {
     final url = Uri.parse(
         '$baseUrl/$users/$follow/?wantToCheck=$wantToCheck&&nickname=$encodedNickname');
 
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
       final String followStr = decodedData['follow'];
@@ -171,7 +176,7 @@ class ApiService {
   static Future<List<UserStruct>> getUserFollowingList() async {
     final url = Uri.parse('$baseUrl/$users/$following_list/');
 
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
       print(decodedData);
@@ -194,7 +199,7 @@ class ApiService {
     final url = Uri.parse(
         '$baseUrl/$users/$near_list/?library_latitude=${currentPosition['latitude']}&&library_longitude=${currentPosition['longitude']}');
 
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
       final List<UserStruct> resultUsers = (decodedData as List)
@@ -235,7 +240,7 @@ class ApiService {
     final url = (nickname != null && nickname.isNotEmpty)
         ? Uri.parse('$baseUrl/$books/$get_list/?nickname=$nickname')
         : Uri.parse('$baseUrl/$books/$get_list/');
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = utf8.decode(response.bodyBytes);
 
@@ -255,7 +260,7 @@ class ApiService {
     final url =
         Uri.parse('$baseUrl/$books/$get_update_destroy/$nickname/$isbn/');
     try {
-      http.Response response = await http.get(url, headers: http_headers);
+      http.Response response = await http.get(url, headers: getHttpHeaders());
       if (response.statusCode == 200) {
         final decodedData = utf8.decode(response.bodyBytes); //응답을 utf-8형식으로 디코딩
         // BookStruct model = BookStruct.fromMap(json.decode(decodedData));
@@ -278,7 +283,8 @@ class ApiService {
     final url =
         Uri.parse('$baseUrl/$books/$get_update_destroy/$nickname/$isbn/');
     try {
-      http.Response response = await http.delete(url, headers: http_headers);
+      http.Response response =
+          await http.delete(url, headers: getHttpHeaders());
       // if (response.statusCode == 200) {
       // BookStruct model = BookStruct.fromMap(json.decode(decodedData));
       // }
@@ -313,7 +319,7 @@ class ApiService {
     try {
       http.Response response = await http.post(
         url,
-        headers: http_headers,
+        headers: getHttpHeaders(),
         body: body,
       );
       if (response.statusCode == 201) {
@@ -351,7 +357,7 @@ class ApiService {
     try {
       http.Response response = await http.patch(
         url,
-        headers: http_headers,
+        headers: getHttpHeaders(),
         body: body,
       );
       if (response.statusCode == 201) {}
@@ -371,7 +377,7 @@ class ApiService {
         ? Uri.parse('$baseUrl/$notes/$list/?nickname=$nickname') // 유저의 모든 노트 조회
         : Uri.parse(
             '$baseUrl/$notes/$list/?nickname=$nickname&&isbn=$isbn'); // 특정 도서의 노트 조회
-    http.Response response = await http.get(url, headers: http_headers);
+    http.Response response = await http.get(url, headers: getHttpHeaders());
     if (response.statusCode == 200) {
       final decodedData = json.decode(utf8.decode(response.bodyBytes));
 
@@ -402,7 +408,7 @@ class ApiService {
     try {
       http.Response response = await http.post(
         url,
-        headers: http_headers,
+        headers: getHttpHeaders(),
         body: body,
       );
       if (response.statusCode == 201) {}

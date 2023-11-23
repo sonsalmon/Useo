@@ -65,6 +65,7 @@ class FFAppState extends ChangeNotifier {
   String get loginToken => _loginToken;
   set loginToken(String _value) {
     _loginToken = _value;
+    notifyListeners();
   }
 
   List<String> _notes = [];
